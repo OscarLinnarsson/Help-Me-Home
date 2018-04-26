@@ -12,7 +12,7 @@ import GUI.Draw;
 import Helpers.MouseInput;
 
 public class Boot {
-
+//PLS help
 	private static double lastUpdate;
 	private static Navigation process;
 	private static JFrame frame;
