@@ -21,7 +21,7 @@ public class FileManager {
 	public static BufferedImage loadImage (String name) {
 		BufferedImage img;
 		try {
-			img = ImageIO.read(new File("./Res/" + name));
+			img = ImageIO.read(new File("./res/" + name + ".png"));
 		} catch (IOException e) {
 			System.out.println("Image not found");
 			img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
