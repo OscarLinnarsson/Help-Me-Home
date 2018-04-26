@@ -4,7 +4,11 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 
 import Main.Boot;
 
@@ -35,6 +39,13 @@ public class Draw extends Canvas {
 		g.fillRect(0, 0, Boot.getCanvasWidth(), Boot.getCanvasHeight());
 	}
 	
+	public static void drawImg (int x, int y, BufferedImage img) {
+		AffineTransform at=new AffineTransform();
+		BufferedImageOp bio;
+		bio=new AffineTransformOp(at,AffineTransformOp.TYPE_BILINEAR);
+		g.drawImage(img, bio, x, y);
+	}
+	
 	/*
 	public static void drawBackground () {
 		
@@ -50,12 +61,6 @@ public class Draw extends Canvas {
 		g.setColor(c);
 		g.fillOval((int)Math.round(x-r), (int)Math.round(y-r), (int)Math.round(2*r), (int)Math.round(2*r));
 	}
-	
-	/*
-	public static void drawImg () {
-		
-	}
-	*/
 	
 	public static void showFrame () {
 		bs.show();
