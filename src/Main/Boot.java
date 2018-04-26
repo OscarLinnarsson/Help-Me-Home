@@ -1,5 +1,5 @@
 package Main;
-//Hej peeps
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
@@ -10,7 +10,7 @@ import javax.swing.WindowConstants;
 
 import GUI.Draw;
 import Helpers.MouseInput;
-//HEJ GUSTAV HAR
+
 public class Boot {
 
 	private static double lastUpdate;
