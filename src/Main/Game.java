@@ -3,6 +3,7 @@ package Main;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import GUI.Animation;
 import GUI.Draw;
 import Game.Particle;
 import Game.Spring;
@@ -17,7 +18,7 @@ public class Game implements Navigation {
 	private static ArrayList<Spring> brokenSprings;
 	public static double gOnP = 500;
 	
-	private static BufferedImage background;
+	private static Animation background;
 	
 	public Game () {
 		particles = new ArrayList<Particle>();
@@ -29,7 +30,12 @@ public class Game implements Navigation {
 		addStaticParticle(900, 700); // 1
 		addStaticParticle(1100, 700); // 2
 		
-		background = FileManager.loadImage("partikeltriangel");
+		ArrayList<BufferedImage> imgs = new ArrayList<BufferedImage>();
+		imgs.add(FileManager.loadImage("partikeltriangel"));
+		imgs.add(FileManager.loadImage("partikeltriangel2"));
+		imgs.add(FileManager.loadImage("partikeltriangel3"));
+		imgs.add(FileManager.loadImage("partikeltriangel4"));
+		background = new Animation(imgs, 2, 30);
 	}
 	
 	private static void addParticle (int x, int y, boolean isStatic) {
@@ -104,7 +110,7 @@ public class Game implements Navigation {
 	
 	public void render () {
 		Draw.drawBackground();
-		Draw.drawImg(100, 200, background);
+		Draw.drawImg(100, 200, background.getImage());
 		for (Spring sp : springs) {
 			sp.render();
 		}
