@@ -41,10 +41,6 @@ public class Draw extends Canvas {
 	
 	public static void drawImg (int x, int y, BufferedImage img) {
 		AffineTransform at=new AffineTransform();
-		//at.rotate(degree * Math.PI / 180.0,sourceBI.getWidth() / 2.0,sourceBI.getHeight() / 2.0);
-		//AffineTransform translationTransform;
-		//translationTransform=findTranslation(at,sourceBI);
-		//at.preConcatenate(translationTransform);
 		BufferedImageOp bio;
 		bio=new AffineTransformOp(at,AffineTransformOp.TYPE_BILINEAR);
 		g.drawImage(img, bio, x, y);
