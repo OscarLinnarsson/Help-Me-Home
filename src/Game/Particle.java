@@ -7,6 +7,10 @@ import Main.Game;
 
 public class Particle {
 	
+	
+	// HEEEEEEEEELLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOO RAMI 
+	
+	
 	private boolean staticPos = false;
 	private double r = 10;
 	private Color color = new Color(0,255,0);
