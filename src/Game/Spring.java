@@ -9,6 +9,9 @@ public class Spring {
 	private Particle p1;
 	private Particle p2;
 	private double restL;
+	private double currentL;
+	private double deltaL;
+	private int snappLength;
 	private double k;
 	private double f;
 	
@@ -32,17 +35,18 @@ public class Spring {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.restL = restL;
+		snappLength = (int) (restL * 1.2);
+		snappLength = snappLength > 120 ? 120 : snappLength;
 		this.k = k;
 	}
 	
 	public void calcF () {// F = -k * deltaS
-		double currentL;
 		double dX = p1.getXPos()-p2.getXPos();
 		double dY = p1.getYPos()-p2.getYPos();
 		currentL = Math.pow((Math.pow(dX, 2)+Math.pow(dY, 2)), 0.5);
-		double deltaL = currentL - restL;
+		deltaL = currentL - restL;
 		f = deltaL * -k;
-		if (deltaL > 120 || deltaL < -120) {
+		if (deltaL > snappLength || deltaL < -snappLength) {
 			Game.removeSpring(this);
 		} else {
 			double angle = Math.atan2(dY, dX);
@@ -57,6 +61,9 @@ public class Spring {
 	}
 	
 	public void render() {
-		Draw.drawLine((int)p1.getXPos(), (int)p1.getYPos(), (int)p2.getXPos(), (int)p2.getYPos(), Color.BLACK);
+		int thickness = (int) ( 10 - ((deltaL/snappLength) * 9) );
+		Draw.drawLine(	(int)p1.getXPos(), (int)p1.getYPos(), 
+						(int)p2.getXPos(), (int)p2.getYPos(), 
+						Color.BLACK, thickness);
 	}
 }
