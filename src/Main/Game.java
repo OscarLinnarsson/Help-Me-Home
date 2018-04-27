@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import GUI.Animation;
 import GUI.Draw;
+import Game.GameMap;
 import Game.Particle;
 import Game.Spring;
 import Game.Vector;
@@ -18,7 +19,7 @@ public class Game implements Navigation {
 	private static ArrayList<Spring> brokenSprings;
 	public static double gOnP = 500;
 	
-	private static BufferedImage background;
+	private static GameMap map;
 	private static Animation animation;
 	
 	public Game () {
@@ -27,11 +28,13 @@ public class Game implements Navigation {
 		springs = new ArrayList<Spring>();
 		brokenSprings = new ArrayList<Spring>();
 		
+		/*
 		addStaticParticle(700, 700); // 0
 		addStaticParticle(900, 700); // 1
 		addStaticParticle(1100, 700); // 2
+		*/
 		
-		background = FileManager.loadImage("maps/1c-Backyard");
+		map = new GameMap("1 Backyard");
 		ArrayList<BufferedImage> imgs = new ArrayList<BufferedImage>();
 		imgs.add(FileManager.loadImage("partikeltriangel"));
 		imgs.add(FileManager.loadImage("partikeltriangel2"));
@@ -111,9 +114,9 @@ public class Game implements Navigation {
 	}
 	
 	public void render () {
-		//Draw.drawBackground();
-		Draw.drawImg(0, 0, background);
-		//Draw.drawImg(100, 200, animation.getImage());
+		Draw.drawImg(0, 0, map.getMapImage());
+		//Draw.drawImg(0, 0, map.getCollisionImage());
+		//Draw.drawImg(10, 20, animation.getImage());
 		for (Spring sp : springs) {
 			sp.render();
 		}

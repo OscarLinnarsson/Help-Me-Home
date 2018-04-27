@@ -36,8 +36,8 @@ public class Boot {
 		canvas.addMouseListener(new MouseInput(frame));
 		
 		lastUpdate = System.currentTimeMillis();
-		//goToGame();
-		goToMainMenu();
+		goToGame();
+		//goToMainMenu();
 		
 		AbstractAction doOneStep = new AbstractAction () {
 			@Override
