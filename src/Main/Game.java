@@ -18,7 +18,8 @@ public class Game implements Navigation {
 	private static ArrayList<Spring> brokenSprings;
 	public static double gOnP = 500;
 	
-	private static Animation background;
+	private static BufferedImage background;
+	private static Animation animation;
 	
 	public Game () {
 		particles = new ArrayList<Particle>();
@@ -30,12 +31,13 @@ public class Game implements Navigation {
 		addStaticParticle(900, 700); // 1
 		addStaticParticle(1100, 700); // 2
 		
+		background = FileManager.loadImage("maps/1c-Backyard");
 		ArrayList<BufferedImage> imgs = new ArrayList<BufferedImage>();
 		imgs.add(FileManager.loadImage("partikeltriangel"));
 		imgs.add(FileManager.loadImage("partikeltriangel2"));
 		imgs.add(FileManager.loadImage("partikeltriangel3"));
 		imgs.add(FileManager.loadImage("partikeltriangel4"));
-		background = new Animation(imgs, 2, 30);
+		animation = new Animation(imgs, 2, 30);
 	}
 	
 	private static void addParticle (int x, int y, boolean isStatic) {
@@ -109,8 +111,9 @@ public class Game implements Navigation {
 	}
 	
 	public void render () {
-		Draw.drawBackground();
-		Draw.drawImg(100, 200, background.getImage());
+		//Draw.drawBackground();
+		Draw.drawImg(0, 0, background);
+		//Draw.drawImg(100, 200, animation.getImage());
 		for (Spring sp : springs) {
 			sp.render();
 		}
