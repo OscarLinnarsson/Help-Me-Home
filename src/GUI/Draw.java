@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -52,8 +53,9 @@ public class Draw extends Canvas {
 	}
 	*/
 	
-	public static void drawLine (int x1, int y1, int x2, int y2, Color c) {
+	public static void drawLine (int x1, int y1, int x2, int y2, Color c, int thickness) {
 		g.setColor(c);
+		g.setStroke(new BasicStroke(thickness));
 		g.drawLine(x1, y1, x2, y2);
 	}
 	
