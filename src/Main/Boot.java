@@ -23,7 +23,7 @@ public class Boot {
 	private static Credits credits = new Credits();
 	
 	public static void main (String[] args) {
-		MainMenu.initialize();
+		mainMenu.initialize();
 		Settings.initialize();
 		Credits.initialize();
 		
@@ -37,6 +37,7 @@ public class Boot {
 		
 		lastUpdate = System.currentTimeMillis();
 		goToGame();
+		//goToMainMenu();
 		
 		AbstractAction doOneStep = new AbstractAction () {
 			@Override

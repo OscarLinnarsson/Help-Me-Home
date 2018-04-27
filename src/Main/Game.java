@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import GUI.Animation;
 import GUI.Draw;
+import Game.GameMap;
 import Game.Particle;
 import Game.Spring;
 import Game.Vector;
@@ -18,7 +19,8 @@ public class Game implements Navigation {
 	private static ArrayList<Spring> brokenSprings;
 	public static double gOnP = 500;
 	
-	private static Animation background;
+	private static GameMap map;
+	private static Animation animation;
 	
 	public Game () {
 		particles = new ArrayList<Particle>();
@@ -26,16 +28,19 @@ public class Game implements Navigation {
 		springs = new ArrayList<Spring>();
 		brokenSprings = new ArrayList<Spring>();
 		
+		/*
 		addStaticParticle(700, 700); // 0
 		addStaticParticle(900, 700); // 1
 		addStaticParticle(1100, 700); // 2
+		*/
 		
+		map = new GameMap("1 Backyard");
 		ArrayList<BufferedImage> imgs = new ArrayList<BufferedImage>();
 		imgs.add(FileManager.loadImage("partikeltriangel"));
 		imgs.add(FileManager.loadImage("partikeltriangel2"));
 		imgs.add(FileManager.loadImage("partikeltriangel3"));
 		imgs.add(FileManager.loadImage("partikeltriangel4"));
-		background = new Animation(imgs, 2, 30);
+		animation = new Animation(imgs, 2, 30);
 	}
 	
 	private static void addParticle (int x, int y, boolean isStatic) {
@@ -109,8 +114,9 @@ public class Game implements Navigation {
 	}
 	
 	public void render () {
-		Draw.drawBackground();
-		Draw.drawImg(100, 200, background.getImage());
+		Draw.drawImg(0, 0, map.getMapImage());
+		//Draw.drawImg(0, 0, map.getCollisionImage());
+		//Draw.drawImg(10, 20, animation.getImage());
 		for (Spring sp : springs) {
 			sp.render();
 		}

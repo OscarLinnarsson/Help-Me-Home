@@ -1,8 +1,17 @@
 package Main;
 
-public class MainMenu implements Navigation {
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-	public static void initialize () {
+import javax.swing.JButton;
+
+import GUI.Draw;
+
+public class MainMenu implements Navigation, ActionListener {
+	
+	public void initialize () {
 		
 	}
 	
@@ -11,7 +20,7 @@ public class MainMenu implements Navigation {
 	}
 	
 	public void render () {
-		
+		Draw.drawBackground();
 	}
 	
 	public void leftClick (int x, int y) {
@@ -22,5 +31,11 @@ public class MainMenu implements Navigation {
 		
 	}
 	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand() == "Play") {
+			Boot.goToGame();
+		}
+	}
 	
 }

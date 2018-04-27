@@ -61,7 +61,8 @@ public class Spring {
 	}
 	
 	public void render() {
-		int thickness = (int) ( 10 - ((deltaL/snappLength) * 9) );
+		int thickness = (int) ( 10 - ((deltaL/snappLength) * 8) );
+		
 		Draw.drawLine(	(int)p1.getXPos(), (int)p1.getYPos(), 
 						(int)p2.getXPos(), (int)p2.getYPos(), 
 						Color.BLACK, thickness);
