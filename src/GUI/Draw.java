@@ -5,14 +5,12 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
-
-import javax.swing.JButton;
+import java.util.ArrayList;
 
 import Main.Boot;
 
@@ -65,6 +63,12 @@ public class Draw extends Canvas {
 	public static void drawCircle (int x, int y, int r, Color c) {
 		g.setColor(c);
 		g.fillOval((int)Math.round(x-r), (int)Math.round(y-r), (int)Math.round(2*r), (int)Math.round(2*r));
+	}
+	
+	public static void drawButtons (ArrayList<Button> buttons) {
+		for (Button b : buttons) {
+			b.draw();
+		}
 	}
 	
 	public static void showFrame () {

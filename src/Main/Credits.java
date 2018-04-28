@@ -1,6 +1,6 @@
 package Main;
 
-public class Credits implements Navigation {
+public class Credits extends Navigation {
 
 	public static void initialize () {
 		

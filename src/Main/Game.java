@@ -11,7 +11,7 @@ import Game.Spring;
 import Game.Vector;
 import Helpers.FileManager;
 
-public class Game implements Navigation {
+public class Game extends Navigation {
 
 	private static ArrayList<Particle> particles;
 	private static ArrayList<Particle> particlesToAdd;

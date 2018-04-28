@@ -10,8 +10,7 @@ public class Particle {
 	private boolean staticPos = false;
 	private double r = 10;
 	private Color color = new Color(0,255,0);
-	//private double Fc = 0.95;
-	private double Fc = 1;
+	private double Fc = 0.95;
 	
 	// i = initial
 	// f = final

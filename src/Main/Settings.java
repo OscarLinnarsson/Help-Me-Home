@@ -1,11 +1,10 @@
 package Main;
 
-public class Settings implements Navigation {
+public class Settings extends Navigation {
 
 	public static void initialize () {
 		
 	}
-	
 	
 	public void update (double dT) {
 		
