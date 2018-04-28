@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
+import GUI.Button;
 import GUI.Draw;
 import Helpers.MouseInput;
 
@@ -36,8 +37,8 @@ public class Boot {
 		canvas.addMouseListener(new MouseInput(frame));
 		
 		lastUpdate = System.currentTimeMillis();
-		goToGame();
-		//goToMainMenu();
+		//goToGame();
+		goToMainMenu();
 		
 		AbstractAction doOneStep = new AbstractAction () {
 			@Override
@@ -56,8 +57,16 @@ public class Boot {
 	}
 	
 	public static void leftClick (int x, int y) {
-		System.out.println("x,y : " + x + "," + y);
-		process.leftClick(x, y);
+		boolean buttonClicked = false;
+		for (Button b : process.getButtons()) {
+			if (b.checkClick(x, y)) {
+				buttonClicked = true;
+				break;
+			}
+		}
+		if (!buttonClicked) {
+			process.leftClick(x, y);
+		}
 	}
 	
 	public static void rightClick (int x, int y) {

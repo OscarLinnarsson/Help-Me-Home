@@ -1,12 +1,23 @@
 package Main;
 
-public interface Navigation {
+import java.util.ArrayList;
 
-	public void update (double dT);
+import GUI.Button;
+
+public abstract class Navigation {
+
+	protected ArrayList<Button> buttons = new ArrayList<Button>();
 	
-	public void render ();
+	public ArrayList<Button> getButtons () {
+		return buttons;
+	}
 	
-	public void leftClick (int x, int y);
+	public abstract void update (double dT);
 	
-	public void rightClick (int x, int y);
+	public abstract void render ();
+	
+	public abstract void leftClick (int x, int y);
+	
+	public abstract void rightClick (int x, int y);
+	
 }
