@@ -2,6 +2,9 @@ package Main;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.TreeSet;
 
 import GUI.Animation;
 import GUI.Draw;
@@ -51,6 +54,13 @@ public class Game extends Navigation {
 		particlesToAdd.add(newP);
 	}
 	
+	public boolean ballsLeft(){
+		if(particles.size()< 20){
+			return true;
+		}
+		return false;
+	}
+	
 	private static void addStaticParticle (int x, int y) {
 		particles.add(new Particle(x, y, 1));
 		particles.get(particles.size()-1).setStaticPos(true);
@@ -65,12 +75,14 @@ public class Game extends Navigation {
 	}
 	
 	private void addParticles () {
+		ArrayList<Integer> distances = new ArrayList<Integer>();
+		HashMap<Integer, Particle> map = new HashMap<>();
 		int x;
 		int y;
+		boolean connected = false;
 		for (Particle newP : particlesToAdd) {
 			x = (int) newP.getXPos();
 			y = (int) newP.getYPos();
-			particles.add(newP);
 			int diffX = 0;
 			int diffY = 0;
 			int dist = 0;
@@ -78,10 +90,20 @@ public class Game extends Navigation {
 				diffX = Math.abs((int) p.getXPos() - x);
 				diffY = Math.abs((int) p.getYPos() - y);
 				dist = (int) Math.pow(Math.pow(diffX, 2) + Math.pow(diffY, 2), 0.5);
+				distances.add(dist);
+				map.put(dist, p);
 				//if (diffX < 200 && diffY < 200) {
-				if (dist < 240 && dist > 20) {
-						addSpring(newP, p);
+			}
+			Collections.sort(distances);
+			for(int i=0; i<3; i++){
+				if (dist < 240 && dist > 20 && i < distances.size()) {
+					addSpring(newP, map.get(distances.get(i)));
+					connected = true;
 				}
+			}
+			if(connected || particles.size()==0){
+				connected = false;
+				particles.add(newP);
 			}
 		}
 		particlesToAdd.clear();

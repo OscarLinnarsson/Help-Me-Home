@@ -64,7 +64,7 @@ public class Boot {
 				break;
 			}
 		}
-		if (!buttonClicked) {
+		if (!buttonClicked && game.ballsLeft()) {
 			process.leftClick(x, y);
 		}
 	}
