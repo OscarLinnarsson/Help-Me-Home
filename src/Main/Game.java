@@ -96,12 +96,13 @@ public class Game extends Navigation {
 		brokenSprings.clear();
 	}
 	
-	private void toMainMenu () {
+	public void toMainMenu () {
 		buttons.add(new Button("pauseGame", 1750, 30, new Runnable() {
 			@Override
 			public void run() {
-				Boot.goToMainMenu();
+			Boot.goToMainMenu();
 			}
+			
 		}));}
 	
 	public static boolean checkGroundCol(int x, int y) {

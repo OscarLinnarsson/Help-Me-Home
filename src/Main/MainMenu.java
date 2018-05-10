@@ -1,9 +1,19 @@
 package Main;
 
+import java.awt.image.BufferedImage;
+
 import GUI.Button;
 import GUI.Draw;
+import Helpers.FileManager;
 
 public class MainMenu extends Navigation {
+	
+	BufferedImage menu;
+
+	public MainMenu () {
+		
+		this.menu = FileManager.loadImage("MainMenu");	
+	}
 	
 	public void initialize () {
 		buttons.add(new Button("Play", 1280, 580, new Runnable() {
@@ -31,7 +41,8 @@ public class MainMenu extends Navigation {
 	}
 	
 	public void render () {
-		Draw.drawBackground();
+		MainMenu background = new MainMenu();
+		Draw.drawBackground(background.menu);
 		Draw.drawButtons(buttons);
 	}
 	

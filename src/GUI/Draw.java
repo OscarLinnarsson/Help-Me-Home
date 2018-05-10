@@ -37,11 +37,8 @@ public class Draw extends Canvas {
 		g = (Graphics2D) bs.getDrawGraphics();
 	}
 	
-	public static void drawBackground () {
-		//g.setColor(Color.WHITE);
-		//g.fillRect(0, 0, Boot.getCanvasWidth(), Boot.getCanvasHeight());
-		BufferedImage menu = FileManager.loadImage("MainMenu");
-		
+	public static void drawBackground (BufferedImage menu) {
+				
 		AffineTransform at=new AffineTransform();
 		BufferedImageOp bio;
 		bio=new AffineTransformOp(at,AffineTransformOp.TYPE_BILINEAR);
