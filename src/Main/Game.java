@@ -4,17 +4,17 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.TreeSet;
 
 import GUI.Animation;
-import GUI.Draw;
 import GUI.Button;
+import GUI.Draw;
 import Game.GameMap;
 import Game.Particle;
 import Game.Spring;
 import Game.Vector;
 import Helpers.Const;
 import Helpers.FileManager;
+import Helpers.helpFunctions;
 
 
 public class Game extends Navigation {
@@ -127,12 +127,12 @@ public class Game extends Navigation {
 	
 	public static boolean checkGroundCol(int x, int y) {
 		double color = 0;
-	  if (x == Boot.getCanvasWidth())
-		  x--;
-	  if (y == Boot.getCanvasHeight()) 
-		  y--;	
-	  color = helpFunctions.collisionColorD(x, y);
-	  return color != Const.WHITE && color != Const.BLACK;
+		if (x == Boot.getCanvasWidth())
+			x--;
+		if (y == Boot.getCanvasHeight()) 
+			y--;	
+		color = helpFunctions.collisionColorD(x, y);
+		return color != Const.WHITE && color != Const.BLACK;
 	}
 	
 	public void update (double dT) {
