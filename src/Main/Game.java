@@ -13,6 +13,7 @@ import Game.GameMap;
 import Game.Particle;
 import Game.Spring;
 import Game.Vector;
+import Helpers.Const;
 import Helpers.FileManager;
 
 
@@ -58,7 +59,7 @@ public class Game extends Navigation {
 	
 	public boolean ballsLeft(){ 
 		System.out.println("Antal partiklar: " + particles.size());
-		if(particles.size() < 20){
+		if(particles.size() < Const.nbrOfBalls){
 			return true;
 		}
 		return false;
@@ -166,7 +167,9 @@ public class Game extends Navigation {
 	}
 	
 	public void leftClick (int x, int y) {
-		addParticle(x, y, false);
+		if (ballsLeft()) {
+			addParticle(x, y, false);
+		}
 	}
 	
 	public void rightClick (int x, int y) {
