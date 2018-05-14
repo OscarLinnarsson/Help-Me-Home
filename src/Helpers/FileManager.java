@@ -3,6 +3,9 @@ package Helpers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.imageio.ImageIO;
 
@@ -27,6 +30,15 @@ public class FileManager {
 			img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
 		}
 		return img;
+	}
+	
+	public static ArrayList<BufferedImage> loadParticleImgArr () {
+		ArrayList<BufferedImage> arr = new ArrayList<BufferedImage>();
+		arr.add(loadImage(Const.neutralFace));
+		for (int i = 0; i < Const.particleFaces.length; i++) {
+			arr.add(loadImage(Const.particleFaces[(int)(Math.random()*Const.particleFaces.length)]));
+		}
+		return arr;
 	}
 	
 }
