@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import Main.Boot;
-import Main.Game;
 
 public class MouseInput implements MouseListener {
 	
