@@ -122,11 +122,17 @@ public class Game extends Navigation {
 			public void run() {
 				Boot.goToMainMenu();
 			}
-			
-		}));}
+		}));
+  }
 	
 	public static boolean checkGroundCol(int x, int y) {
-		return false;
+		double color = 0;
+	  if (x == Boot.getCanvasWidth())
+		  x--;
+	  if (y == Boot.getCanvasHeight()) 
+		  y--;	
+	  color = helpFunctions.collisionColorD(x, y);
+	  return color != Const.WHITE && color != Const.BLACK;
 	}
 	
 	public void update (double dT) {
