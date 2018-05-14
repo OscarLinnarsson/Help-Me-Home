@@ -27,18 +27,14 @@ public class Game extends Navigation {
 	
 	private static GameMap map;
 	private static Animation animation;
+	private static int ballsLeft;
 	
 	public Game () {
+		ballsLeft = Const.nbrOfBalls; 
 		particles = new ArrayList<Particle>();
 		particlesToAdd = new ArrayList<Particle>();
 		springs = new ArrayList<Spring>();
 		brokenSprings = new ArrayList<Spring>();
-		
-		/*
-		addStaticParticle(700, 700); // 0
-		addStaticParticle(900, 700); // 1
-		addStaticParticle(1100, 700); // 2
-		*/
 		
 		map = new GameMap("1 Backyard");
 		ArrayList<BufferedImage> imgs = new ArrayList<BufferedImage>();
@@ -58,11 +54,7 @@ public class Game extends Navigation {
 	}
 	
 	public boolean ballsLeft(){ 
-		System.out.println("Antal partiklar: " + particles.size());
-		if(particles.size() < Const.nbrOfBalls){
-			return true;
-		}
-		return false;
+		return ballsLeft > 0 ? true : false;
 	}
 	
 	private static void addStaticParticle (int x, int y) {
@@ -128,7 +120,7 @@ public class Game extends Navigation {
 		buttons.add(new Button("pauseGame", 1750, 30, new Runnable() {
 			@Override
 			public void run() {
-			Boot.goToMainMenu();
+				Boot.goToMainMenu();
 			}
 			
 		}));}
@@ -155,8 +147,9 @@ public class Game extends Navigation {
 	
 	public void render () {
 		Draw.drawImg(0, 0, map.getMapImage());
-		Draw.drawButtons(buttons);
 		//Draw.drawImg(0, 0, map.getCollisionImage());
+		Draw.drawButtons(buttons);
+		Draw.drawTextM(20, 50, "Balls left: " + ballsLeft);
 		//Draw.drawImg(10, 20, animation.getImage());
 		for (Spring sp : springs) {
 			sp.render();
@@ -169,10 +162,15 @@ public class Game extends Navigation {
 	public void leftClick (int x, int y) {
 		if (ballsLeft()) {
 			addParticle(x, y, false);
+			ballsLeft--;
 		}
 	}
 	
 	public void rightClick (int x, int y) {
-		addParticle(x, y, true);
+		if (ballsLeft()) {
+			addParticle(x, y, true);
+			ballsLeft--;
+		}
+		
 	}
 }
