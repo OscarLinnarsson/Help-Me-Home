@@ -11,7 +11,6 @@ public class MainMenu extends Navigation {
 	BufferedImage menu;
 
 	public MainMenu () {
-		
 		this.menu = FileManager.loadImage("MainMenu");	
 	}
 	

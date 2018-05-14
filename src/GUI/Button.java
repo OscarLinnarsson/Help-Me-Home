@@ -12,6 +12,7 @@ public class Button {
 	private int bottomBound;
 	private BufferedImage img;
 	private Runnable onClick;
+	private boolean isVisible = true;
 	
 	public Button (String buttonName, int _x, int _y) {
 		initialize(buttonName, _x, _y, null);
@@ -34,25 +35,32 @@ public class Button {
 		onClick = run;
 	}
 	
-	public void draw () {
-		Draw.drawImg(x, y, img);
+	public void setVisible (boolean showButton) {
+		isVisible = showButton;
 	}
 	
-	public boolean checkClick (int _x, int _y) {
-		if (	x <= _x  && _x <= rightBound &&
-				y <= _y && _y <= bottomBound) {
-			if (onClick != null) {
-				onClick.run();
-			} else {
-				System.out.println("No action Command has been "
-									+ "set for this button.");
-			}
-			return true;
-		} else {
-			return false;
+	public void draw () {
+		if (isVisible) {
+			Draw.drawImg(x, y, img);
 		}
 	}
 	
+	public boolean checkClick (int _x, int _y) {
+		if (isVisible) {
+			if (x <= _x  && _x <= rightBound &&
+				y <= _y && _y <= bottomBound) {
+				if (onClick != null) {
+					onClick.run();
+				} else {
+					System.out.println("No action Command has been "
+										+ "set for this button.");
+				}
+				return true;
+			}
+		}
+		return false;
+		
+	}
 	
 	
 }

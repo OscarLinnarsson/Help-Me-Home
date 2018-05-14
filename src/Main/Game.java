@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import GUI.Animation;
 import GUI.Button;
 import GUI.Draw;
 import Game.GameMap;
@@ -26,8 +25,15 @@ public class Game extends Navigation {
 	public static double gOnP = 500;
 	
 	private static GameMap map;
-	private static Animation animation;
 	private static int ballsLeft;
+	
+	private static Button pause;
+	private static Button play;
+	private static Button restart;
+	private static Button goBack;
+	//private static Button options;
+	private static boolean isPaused = false;
+	private static BufferedImage pauseIndicator;
 	
 	public Game () {
 		ballsLeft = Const.nbrOfBalls; 
@@ -35,14 +41,40 @@ public class Game extends Navigation {
 		particlesToAdd = new ArrayList<Particle>();
 		springs = new ArrayList<Spring>();
 		brokenSprings = new ArrayList<Spring>();
-		
 		map = new GameMap("1 Backyard");
-		ArrayList<BufferedImage> imgs = new ArrayList<BufferedImage>();
-		imgs.add(FileManager.loadImage("partikeltriangel"));
-		imgs.add(FileManager.loadImage("partikeltriangel2"));
-		imgs.add(FileManager.loadImage("partikeltriangel3"));
-		imgs.add(FileManager.loadImage("partikeltriangel4"));
-		animation = new Animation(imgs, 2, 30);
+		pauseIndicator = FileManager.loadImage("PauseIndicator");
+		createButtons();
+		buttons.add(pause);
+		buttons.add(play);
+		buttons.add(restart);
+		buttons.add(goBack);
+	}
+	
+	private static void createButtons () {
+		pause = new Button("Pause", 1750, 30, new Runnable() {
+			@Override
+			public void run() {
+				isPaused = true;
+			}
+		});
+		play = new Button("unPause", 1550, 30, new Runnable() {
+			@Override
+			public void run() {
+				isPaused = false;
+			}
+		});
+		restart = new Button("Restart", 1350, 30, new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Should restart");
+			}
+		});
+		goBack = new Button("Exit", 1150, 30, new Runnable() {
+			@Override
+			public void run() {
+				Boot.goToMainMenu();
+			}
+		});
 	}
 	
 	private static void addParticle (int x, int y, boolean isStatic) {
@@ -116,15 +148,6 @@ public class Game extends Navigation {
 		brokenSprings.clear();
 	}
 	
-	public void toMainMenu () {
-		buttons.add(new Button("pauseGame", 1750, 30, new Runnable() {
-			@Override
-			public void run() {
-				Boot.goToMainMenu();
-			}
-		}));
-  }
-	
 	public static boolean checkGroundCol(int x, int y) {
 		double color = 0;
 		if (x == Boot.getCanvasWidth())
@@ -136,19 +159,20 @@ public class Game extends Navigation {
 	}
 	
 	public void update (double dT) {
-		addParticles();
-		removeBrokenSprings();
-		toMainMenu();
-		
-		for (Particle p : particles) {
-			p.addForce(new Vector(0, gOnP));
-		}
-		for (Spring sp : springs) {
-			sp.calcF();
-		}
-		for (Particle p : particles) {
-			p.update(dT);
-		}
+		if (!isPaused) {
+			addParticles();
+			removeBrokenSprings();
+			
+			for (Particle p : particles) {
+				p.addForce(new Vector(0, gOnP));
+			}
+			for (Spring sp : springs) {
+				sp.calcF();
+			}
+			for (Particle p : particles) {
+				p.update(dT);
+			}
+		}	
 	}
 	
 	public void render () {
@@ -156,24 +180,26 @@ public class Game extends Navigation {
 		//Draw.drawImg(0, 0, map.getCollisionImage());
 		Draw.drawButtons(buttons);
 		Draw.drawTextM(20, 50, "Balls left: " + ballsLeft);
-		//Draw.drawImg(10, 20, animation.getImage());
 		for (Spring sp : springs) {
 			sp.render();
 		}
 		for (Particle p : particles) {
 			p.render();
 		}
+		if (isPaused) {
+			Draw.drawImg(850, 350, pauseIndicator);
+		}
 	}
 	
 	public void leftClick (int x, int y) {
-		if (ballsLeft()) {
+		if (ballsLeft() && !isPaused) {
 			addParticle(x, y, false);
 			ballsLeft--;
 		}
 	}
 	
 	public void rightClick (int x, int y) {
-		if (ballsLeft()) {
+		if (ballsLeft() && !isPaused) {
 			addParticle(x, y, true);
 			ballsLeft--;
 		}
