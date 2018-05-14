@@ -3,6 +3,8 @@ package GUI;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import Helpers.Const;
+
 public class Animation {
 
 	private boolean alwaysOn;
@@ -47,7 +49,7 @@ public class Animation {
 	}
 	
 	private boolean randomStart () {
-		return Math.random() > 0.5 ? true : false;
+		return Math.random() < Const.animationStartChance ? true : false;
 	}
 	
 	public BufferedImage getImage () {

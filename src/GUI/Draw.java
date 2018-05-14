@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -36,9 +37,13 @@ public class Draw extends Canvas {
 		g = (Graphics2D) bs.getDrawGraphics();
 	}
 	
-	public static void drawBackground () {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, Boot.getCanvasWidth(), Boot.getCanvasHeight());
+	public static void drawBackground () {  
+		g.setColor(Color.WHITE); 
+		g.fillRect(0, 0, Boot.getCanvasWidth(), Boot.getCanvasHeight()); 
+	}
+		
+	public static void drawBackground (BufferedImage img) {
+		drawImg(0, 0, img);
 	}
 	
 	public static void drawImg (int x, int y, BufferedImage img) {
@@ -48,11 +53,19 @@ public class Draw extends Canvas {
 		g.drawImage(img, bio, x, y);
 	}
 	
-	/*
-	public static void drawBackground () {
-		
+	public static void drawTextM (int x, int y, String text) {
+		drawText(x, y, text, 50);
 	}
-	*/
+	
+	public static void drawTextL (int x, int y, String text) {
+		drawText(x, y, text, 100);
+	}
+	
+	private static void drawText (int x, int y, String text, int size) {
+		g.setFont(new Font("TimesRoman", Font.BOLD, size)); 
+		g.setColor(Color.black);
+		g.drawString(text, x, y);
+	}
 	
 	public static void drawLine (int x1, int y1, int x2, int y2, Color c, int thickness) {
 		g.setColor(c);

@@ -20,6 +20,8 @@ public class MouseInput implements MouseListener {
 	private Point p;
 	private int x;
 	private int y;
+	private int pointerWidth = 15;
+	private int pointerHeight = 20;
 	
 	public MouseInput(JFrame f) {
 		frame = f;
@@ -42,8 +44,8 @@ public class MouseInput implements MouseListener {
 		frameX = (int) frame.getLocationOnScreen().getX();
 		frameY = (int) frame.getLocationOnScreen().getY();
 		p = MouseInfo.getPointerInfo().getLocation();
-		x = (int) p.getX() - frameX;
-		y = (int) p.getY() - frameY - topBarHeight;
+		x = (int) p.getX() - frameX - pointerWidth;
+		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
 		//x = (int) p.getX();
 		//y = (int) p.getY() - topBarHeight;
 		

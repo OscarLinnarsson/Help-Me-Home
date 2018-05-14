@@ -2,14 +2,20 @@ package Main;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.TreeSet;
 
 import GUI.Animation;
 import GUI.Draw;
+import GUI.Button;
 import Game.GameMap;
 import Game.Particle;
 import Game.Spring;
 import Game.Vector;
+import Helpers.Const;
 import Helpers.FileManager;
+
 
 public class Game extends Navigation {
 
@@ -21,18 +27,14 @@ public class Game extends Navigation {
 	
 	private static GameMap map;
 	private static Animation animation;
+	private static int ballsLeft;
 	
 	public Game () {
+		ballsLeft = Const.nbrOfBalls; 
 		particles = new ArrayList<Particle>();
 		particlesToAdd = new ArrayList<Particle>();
 		springs = new ArrayList<Spring>();
 		brokenSprings = new ArrayList<Spring>();
-		
-		/*
-		addStaticParticle(700, 700); // 0
-		addStaticParticle(900, 700); // 1
-		addStaticParticle(1100, 700); // 2
-		*/
 		
 		map = new GameMap("1 Backyard");
 		ArrayList<BufferedImage> imgs = new ArrayList<BufferedImage>();
@@ -51,6 +53,10 @@ public class Game extends Navigation {
 		particlesToAdd.add(newP);
 	}
 	
+	public boolean ballsLeft(){ 
+		return ballsLeft > 0 ? true : false;
+	}
+	
 	private static void addStaticParticle (int x, int y) {
 		particles.add(new Particle(x, y, 1));
 		particles.get(particles.size()-1).setStaticPos(true);
@@ -65,23 +71,39 @@ public class Game extends Navigation {
 	}
 	
 	private void addParticles () {
+		ArrayList<Integer> distances = new ArrayList<Integer>();
+		HashMap<Integer, Particle> map = new HashMap<>();
 		int x;
 		int y;
+		boolean connected;
+		int diffX;
+		int diffY;
+		int dist;
+		int maxConections;
 		for (Particle newP : particlesToAdd) {
+			connected = false;
 			x = (int) newP.getXPos();
 			y = (int) newP.getYPos();
-			particles.add(newP);
-			int diffX = 0;
-			int diffY = 0;
-			int dist = 0;
+			diffX = 0;
+			diffY = 0;
+			dist = 0;
 			for (Particle p : particles) {
 				diffX = Math.abs((int) p.getXPos() - x);
 				diffY = Math.abs((int) p.getYPos() - y);
 				dist = (int) Math.pow(Math.pow(diffX, 2) + Math.pow(diffY, 2), 0.5);
-				//if (diffX < 200 && diffY < 200) {
-				if (dist < 240 && dist > 20) {
-						addSpring(newP, p);
+				distances.add(dist);
+				map.put(dist, p);
+			}
+			Collections.sort(distances);
+			maxConections = distances.size() > 3 ? 3 : distances.size();
+			for(int i = 0; i < maxConections; i++){
+				if (distances.get(i) < 240 && distances.get(i) > 20 && i < distances.size()) {
+					addSpring(newP, map.get(distances.get(i)));
+					connected = true;
 				}
+			}
+			if(connected || particles.size() == 0){
+				particles.add(newP);
 			}
 		}
 		particlesToAdd.clear();
@@ -94,18 +116,29 @@ public class Game extends Navigation {
 		brokenSprings.clear();
 	}
 	
-	public static boolean checkGroundCol(int x, int y) {double color = 0;
-	if (x == Boot.getCanvasWidth())
-		x--;
-	if (y == Boot.getCanvasHeight()) 
-		y--;	
-	color = helpFunctions.collisionColorD(x, y);
-	return color != Const.WHITE && color != Const.BLACK;
+	public void toMainMenu () {
+		buttons.add(new Button("pauseGame", 1750, 30, new Runnable() {
+			@Override
+			public void run() {
+				Boot.goToMainMenu();
+			}
+		}));
+  }
+	
+	public static boolean checkGroundCol(int x, int y) {
+		double color = 0;
+	  if (x == Boot.getCanvasWidth())
+		  x--;
+	  if (y == Boot.getCanvasHeight()) 
+		  y--;	
+	  color = helpFunctions.collisionColorD(x, y);
+	  return color != Const.WHITE && color != Const.BLACK;
 	}
 	
 	public void update (double dT) {
 		addParticles();
 		removeBrokenSprings();
+		toMainMenu();
 		
 		for (Particle p : particles) {
 			p.addForce(new Vector(0, gOnP));
@@ -121,6 +154,8 @@ public class Game extends Navigation {
 	public void render () {
 		Draw.drawImg(0, 0, map.getMapImage());
 		//Draw.drawImg(0, 0, map.getCollisionImage());
+		Draw.drawButtons(buttons);
+		Draw.drawTextM(20, 50, "Balls left: " + ballsLeft);
 		//Draw.drawImg(10, 20, animation.getImage());
 		for (Spring sp : springs) {
 			sp.render();
@@ -131,10 +166,17 @@ public class Game extends Navigation {
 	}
 	
 	public void leftClick (int x, int y) {
-		addParticle(x, y, false);
+		if (ballsLeft()) {
+			addParticle(x, y, false);
+			ballsLeft--;
+		}
 	}
 	
 	public void rightClick (int x, int y) {
-		addParticle(x, y, true);
+		if (ballsLeft()) {
+			addParticle(x, y, true);
+			ballsLeft--;
+		}
+		
 	}
 }
