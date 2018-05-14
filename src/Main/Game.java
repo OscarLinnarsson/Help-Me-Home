@@ -140,6 +140,7 @@ public class Game extends Navigation {
 			}
 			if(connected || particles.size() == 0){
 				particles.add(newP);
+				ballsLeft--;
 			}
 		}
 		particlesToAdd.clear();
@@ -198,14 +199,12 @@ public class Game extends Navigation {
 	public void leftClick (int x, int y) {
 		if (ballsLeft() && !isPaused) {
 			addParticle(x, y, false);
-			ballsLeft--;
 		}
 	}
 	
 	public void rightClick (int x, int y) {
 		if (ballsLeft() && !isPaused) {
 			addParticle(x, y, true);
-			ballsLeft--;
 		}
 		
 	}
