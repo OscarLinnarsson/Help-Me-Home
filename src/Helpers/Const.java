@@ -10,7 +10,7 @@ public class Const {
   
 	public static int nbrOfBalls = 20;
 	
-	public static boolean showFaces = false;
+	public static boolean showFaces = true;
 	public static double animationStartChance = 0.1;
 	public static String neutralFace  = "particle/neutral";
 	public static String[] particleFaces = {
