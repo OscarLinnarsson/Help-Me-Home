@@ -35,13 +35,9 @@ public class Game extends Navigation {
 	private static boolean isPaused = false;
 	private static BufferedImage pauseIndicator;
 	
-	public Game () {
-		ballsLeft = Const.nbrOfBalls; 
-		particles = new ArrayList<Particle>();
-		particlesToAdd = new ArrayList<Particle>();
-		springs = new ArrayList<Spring>();
-		brokenSprings = new ArrayList<Spring>();
-		map = new GameMap("1 Backyard");
+	public Game (String mapName) {
+		restart();
+		map = new GameMap(mapName);
 		pauseIndicator = FileManager.loadImage("PauseIndicator");
 		createButtons();
 		buttons.add(pause);
@@ -66,7 +62,7 @@ public class Game extends Navigation {
 		restart = new Button("Restart", 1350, 30, new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("Should restart");
+				restart();
 			}
 		});
 		goBack = new Button("Exit", 1150, 30, new Runnable() {
@@ -75,6 +71,14 @@ public class Game extends Navigation {
 				Boot.goToMainMenu();
 			}
 		});
+	}
+	
+	private static void restart () {
+		ballsLeft = Const.nbrOfBalls; 
+		particles = new ArrayList<Particle>();
+		particlesToAdd = new ArrayList<Particle>();
+		springs = new ArrayList<Spring>();
+		brokenSprings = new ArrayList<Spring>();
 	}
 	
 	private static void addParticle (int x, int y, boolean isStatic) {
@@ -127,7 +131,7 @@ public class Game extends Navigation {
 				map.put(dist, p);
 			}
 			Collections.sort(distances);
-			maxConections = distances.size() > 3 ? 3 : distances.size();
+			maxConections = distances.size() > Const.maxIniSpr ? Const.maxIniSpr : distances.size();
 			for(int i = 0; i < maxConections; i++){
 				if (distances.get(i) < 240 && distances.get(i) > 20 && i < distances.size()) {
 					addSpring(newP, map.get(distances.get(i)));

@@ -116,25 +116,13 @@ public class Particle {
 	}
 	
 	private void paintMeLikeOneOfYourFrenchGirls () {
-		if (Const.showFaces) {
-			int radius = 32;
-			Draw.drawImg((int)xRi-radius, (int)yRi-radius, animation.getImage());
-		} else {
-			Draw.drawCircle((int)xRi, (int)yRi, (int)r, color);
-		}
+		//if (Const.showFaces) {
+			//int radius = 32;
+			Draw.drawImg((int)(xRi-r), (int)(yRi-r), animation.getImage());
+		//} else {
+			//Draw.drawCircle((int)xRi, (int)yRi, (int)r, color);
+		//}
 		
 	}
-	
-	/*public void col() {
-		help = new helpFunctions();
-		double color = 0;
-		color = help.collisionColorD((int) xRi, (int) yRi);
-		
-		//System.out.println(color);
-		
-		if(color == Const.RED) {
-			addForce(new Vector(0, -fRes.getY()));			
-		}		
-	}*/
 	
 }
