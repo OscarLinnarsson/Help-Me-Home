@@ -6,6 +6,7 @@ import GUI.Animation;
 import GUI.Draw;
 import Helpers.Const;
 import Helpers.FileManager;
+import Main.Boot;
 import Main.Game;
 
 public class Particle {
