@@ -54,8 +54,9 @@ public class Game extends Navigation {
 		particlesToAdd.add(newP);
 	}
 	
-	public boolean ballsLeft(){
-		if(particles.size()< 20){
+	public boolean ballsLeft(){ 
+		System.out.println("Antal partiklar: " + particles.size());
+		if(particles.size() < 20){
 			return true;
 		}
 		return false;
@@ -79,30 +80,34 @@ public class Game extends Navigation {
 		HashMap<Integer, Particle> map = new HashMap<>();
 		int x;
 		int y;
-		boolean connected = false;
+		boolean connected;
+		int diffX;
+		int diffY;
+		int dist;
+		int maxConections;
 		for (Particle newP : particlesToAdd) {
+			connected = false;
 			x = (int) newP.getXPos();
 			y = (int) newP.getYPos();
-			int diffX = 0;
-			int diffY = 0;
-			int dist = 0;
+			diffX = 0;
+			diffY = 0;
+			dist = 0;
 			for (Particle p : particles) {
 				diffX = Math.abs((int) p.getXPos() - x);
 				diffY = Math.abs((int) p.getYPos() - y);
 				dist = (int) Math.pow(Math.pow(diffX, 2) + Math.pow(diffY, 2), 0.5);
 				distances.add(dist);
 				map.put(dist, p);
-				//if (diffX < 200 && diffY < 200) {
 			}
 			Collections.sort(distances);
-			for(int i=0; i<3; i++){
-				if (dist < 240 && dist > 20 && i < distances.size()) {
+			maxConections = distances.size() > 3 ? 3 : distances.size();
+			for(int i = 0; i < maxConections; i++){
+				if (distances.get(i) < 240 && distances.get(i) > 20 && i < distances.size()) {
 					addSpring(newP, map.get(distances.get(i)));
 					connected = true;
 				}
 			}
-			if(connected || particles.size()==0){
-				connected = false;
+			if(connected || particles.size() == 0){
 				particles.add(newP);
 			}
 		}

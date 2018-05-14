@@ -22,6 +22,7 @@ public class Boot {
 	private static MainMenu mainMenu = new MainMenu();
 	private static Settings settings = new Settings();
 	private static Credits credits = new Credits();
+	private static Timer timer;
 	
 	public static void main (String[] args) {
 		mainMenu.initialize();
@@ -37,7 +38,6 @@ public class Boot {
 		canvas.addMouseListener(new MouseInput(frame));
 		
 		lastUpdate = System.currentTimeMillis();
-		//goToGame();
 		goToMainMenu();
 		
 		AbstractAction doOneStep = new AbstractAction () {
@@ -49,7 +49,7 @@ public class Boot {
 				repaint();
 			}
 		};
-		Timer timer = new Timer(17, doOneStep);
+		timer = new Timer(17, doOneStep);
 		timer.setCoalesce(true);
 		timer.start();
 		
