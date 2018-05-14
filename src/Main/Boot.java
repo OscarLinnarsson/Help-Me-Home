@@ -18,7 +18,7 @@ public class Boot {
 	private static Navigation process;
 	private static JFrame frame;
 	private static Draw canvas = new Draw();
-	private static Game game = new Game();
+	private static Game game = new Game("1 Backyard");
 	private static MainMenu mainMenu = new MainMenu();
 	private static Settings settings = new Settings();
 	private static Credits credits = new Credits();
@@ -108,6 +108,7 @@ public class Boot {
 	}
 	
 	public static void goToGame () {
+		game = new Game("1 Backyard");
 		process = game;
 	}
 	

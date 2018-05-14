@@ -9,9 +9,10 @@ public class Const {
 	public static final double WHITE = 	0.2552552551; 
   
 	public static int nbrOfBalls = 20;
+	public static int maxIniSpr = 4;
 	
-	public static boolean showFaces = true;
-	public static double animationStartChance = 0.1;
+	//public static boolean showFaces = true;
+	public static double animationStartChance = 0.05;
 	public static String neutralFace  = "particle/neutral";
 	public static String[] particleFaces = {
 			"particle/confused",
