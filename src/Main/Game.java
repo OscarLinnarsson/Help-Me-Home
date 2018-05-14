@@ -94,8 +94,13 @@ public class Game extends Navigation {
 		brokenSprings.clear();
 	}
 	
-	public static boolean checkGroundCol(int x, int y) {
-		return false;
+	public static boolean checkGroundCol(int x, int y) {double color = 0;
+	if (x == Boot.getCanvasWidth())
+		x--;
+	if (y == Boot.getCanvasHeight()) 
+		y--;	
+	color = helpFunctions.collisionColorD(x, y);
+	return color != Const.WHITE && color != Const.BLACK;
 	}
 	
 	public void update (double dT) {

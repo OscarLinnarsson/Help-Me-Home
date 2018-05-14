@@ -76,6 +76,16 @@ public class Particle {
 	private boolean calcNewPos (double dT) {
 		xRf = xRi + xVf * dT;
 		yRf = yRi + yVf * dT;
+		
+		if(xRf >= Boot.getCanvasWidth())
+			xRf = Boot.getCanvasWidth();
+		else if (xRf <= 0)
+			xRf = 0;
+		if(yRf >= Boot.getCanvasHeight())
+			yRf = Boot.getCanvasHeight();
+		else if (yRf <= 0)
+			yRf = 0;
+		
 		return Game.checkGroundCol((int)xRf, (int)yRf)? false : true; 
 		//if no collision true is returned
 	}
@@ -95,5 +105,17 @@ public class Particle {
 	public void render() {
 		Draw.drawCircle((int)xRi, (int)yRi, (int)r, color);
 	}
+	
+	/*public void col() {
+		help = new helpFunctions();
+		double color = 0;
+		color = help.collisionColorD((int) xRi, (int) yRi);
+		
+		//System.out.println(color);
+		
+		if(color == Const.RED) {
+			addForce(new Vector(0, -fRes.getY()));			
+		}		
+	}*/
 	
 }
