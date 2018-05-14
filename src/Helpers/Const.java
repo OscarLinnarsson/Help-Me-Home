@@ -1,6 +1,6 @@
 package Helpers;
 
 public class Const {
-	public int nbrOfBalls = 20;
+	public static int nbrOfBalls = 20;
 
 }
