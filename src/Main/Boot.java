@@ -94,8 +94,9 @@ public class Boot {
 		return canvas.getHeight();
 	}
 	
-	public static void goToMainMenu () {
+	public static boolean goToMainMenu () {
 		process = mainMenu;
+		return true;
 	}
 	
 	public static void goToSettings () {

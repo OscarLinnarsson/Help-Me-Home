@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.util.ArrayList;
 
+import Helpers.FileManager;
 import Main.Boot;
 
 public class Draw extends Canvas {
@@ -36,9 +37,12 @@ public class Draw extends Canvas {
 		g = (Graphics2D) bs.getDrawGraphics();
 	}
 	
-	public static void drawBackground () {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, Boot.getCanvasWidth(), Boot.getCanvasHeight());
+	public static void drawBackground (BufferedImage menu) {
+				
+		AffineTransform at=new AffineTransform();
+		BufferedImageOp bio;
+		bio=new AffineTransformOp(at,AffineTransformOp.TYPE_BILINEAR);
+		g.drawImage(menu, bio, 0, 0);
 	}
 	
 	public static void drawImg (int x, int y, BufferedImage img) {
