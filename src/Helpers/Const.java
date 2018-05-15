@@ -8,6 +8,7 @@ public class Const {
 	public static final double BLACK = 	0.0000000001;
 	public static final double WHITE = 	0.2552552551;
 	public static final double ORANGE = 0.2551530001;
+	public static final double PINK = 0.2550002551;
 
 	public static int fricThreshold = 10;
 	public static double fricLoss = 0.6;
