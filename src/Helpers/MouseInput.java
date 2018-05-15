@@ -4,13 +4,14 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import Main.Boot;
 
-public class MouseInput implements MouseListener {
+public class MouseInput implements MouseListener, MouseMotionListener {
 	
 	private JFrame frame;
 	private int frameX;
@@ -31,22 +32,10 @@ public class MouseInput implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		frameX = (int) frame.getLocationOnScreen().getX();
-		frameY = (int) frame.getLocationOnScreen().getY();
-		p = MouseInfo.getPointerInfo().getLocation();
-		x = (int) p.getX() - frameX - pointerWidth;
-		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
-		Boot.render();
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		frameX = (int) frame.getLocationOnScreen().getX();
-		frameY = (int) frame.getLocationOnScreen().getY();
-		p = MouseInfo.getPointerInfo().getLocation();
-		x = (int) p.getX() - frameX - pointerWidth;
-		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
-		Boot.render();
 	}
 
 	@Override
@@ -67,6 +56,26 @@ public class MouseInput implements MouseListener {
 		} else if (SwingUtilities.isRightMouseButton(e)) {
 			Boot.rightClick(x, y);
 		}
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		frameX = (int) frame.getLocationOnScreen().getX();
+		frameY = (int) frame.getLocationOnScreen().getY();
+		p = MouseInfo.getPointerInfo().getLocation();
+		x = (int) p.getX() - frameX - pointerWidth;
+		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		frameX = (int) frame.getLocationOnScreen().getX();
+		frameY = (int) frame.getLocationOnScreen().getY();
+		p = MouseInfo.getPointerInfo().getLocation();
+		x = (int) p.getX() - frameX - pointerWidth;
+		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
+		
 	}
 	
 	public static int[] getMouseCords(){

@@ -257,6 +257,7 @@ public class Game extends Navigation {
 			Draw.drawImg(850, 350, pauseIndicator);
 		}else if(hoverCircle){
 			System.out.println("Hellu");
+			System.out.println("x:" +  MouseInput.getMouseCords()[0]  + " | y:" + MouseInput.getMouseCords()[1] );
 			Draw.drawImg(MouseInput.getMouseCords()[0]-240,MouseInput.getMouseCords()[1]-240, GuideCircle);
 			
 		}

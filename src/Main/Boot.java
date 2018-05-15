@@ -36,6 +36,7 @@ public class Boot {
 		frame.pack();
 		canvas.initialize();
 		canvas.addMouseListener(new MouseInput(frame));
+		canvas.addMouseMotionListener(new MouseInput(frame));
 		
 		lastUpdate = System.currentTimeMillis();
 		goToMainMenu();
