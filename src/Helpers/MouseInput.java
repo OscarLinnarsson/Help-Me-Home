@@ -17,8 +17,8 @@ public class MouseInput implements MouseListener {
 	private int frameY;
 	private int topBarHeight = 40;
 	private Point p;
-	private int x;
-	private int y;
+	private static int x;
+	private static int y;
 	private int pointerWidth = 15;
 	private int pointerHeight = 20;
 	
@@ -30,10 +30,24 @@ public class MouseInput implements MouseListener {
 	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+		frameX = (int) frame.getLocationOnScreen().getX();
+		frameY = (int) frame.getLocationOnScreen().getY();
+		p = MouseInfo.getPointerInfo().getLocation();
+		x = (int) p.getX() - frameX - pointerWidth;
+		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
+		Boot.render();
+	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {
+		frameX = (int) frame.getLocationOnScreen().getX();
+		frameY = (int) frame.getLocationOnScreen().getY();
+		p = MouseInfo.getPointerInfo().getLocation();
+		x = (int) p.getX() - frameX - pointerWidth;
+		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
+		Boot.render();
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {}
@@ -53,6 +67,11 @@ public class MouseInput implements MouseListener {
 		} else if (SwingUtilities.isRightMouseButton(e)) {
 			Boot.rightClick(x, y);
 		}
+	}
+	
+	public static int[] getMouseCords(){
+		int[] cords = {x,y};
+		return cords;
 	}
 
 }
