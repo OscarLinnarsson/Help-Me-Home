@@ -16,9 +16,11 @@ public class SelectMap extends Navigation {
 	private static Button next;
 	private static Button previous;
 	
+	
+	
 	public SelectMap () {
-		//backgroundImg = FileManager.loadImage(name);
-		next = new Button("next", 1000, 500, new Runnable() {
+		backgroundImg = FileManager.loadImage("BackgroundLevels");
+		next = new Button("next", 1730, 500, new Runnable() {
 			@Override
 			public void run() {
 				if ((pageNum+1)*4 < maps.size()) {
@@ -26,7 +28,7 @@ public class SelectMap extends Navigation {
 				}
 			}
 		});
-		previous = new Button("previous", 20, 500, new Runnable() {
+		previous = new Button("previous", 25, 500, new Runnable() {
 			@Override
 			public void run() {
 				if (pageNum > 0) {
@@ -69,17 +71,17 @@ public class SelectMap extends Navigation {
 		int x = 0;
 		int y = 0;
 		if (maps.size() % 4 == 1) {
-			x = 100;
-			y = 100;
+			x = 530;
+			y = 250;
 		} else if (maps.size() % 4 == 2) {
-			x = 500;
-			y = 100;
+			x = 1030;
+			y = 600;
 		} else if (maps.size() % 4 == 3) {
-			x = 100;
-			y = 500;
+			x = 1030;
+			y = 250;
 		} else if (maps.size() % 4 == 0) {
-			x = 500;
-			y = 500;
+			x = 0;
+			y = 0;
 		}
 		map.getButton().setX(x);
 		map.getButton().setY(y);
@@ -92,8 +94,8 @@ public class SelectMap extends Navigation {
 
 	@Override
 	public void render() {
-		Draw.drawBackground();
-		//Draw.drawBackground(backgroundImg);
+		//Draw.drawBackground();
+		Draw.drawBackground(backgroundImg);
 		Draw.drawButtons(buttons);
 	}
 
