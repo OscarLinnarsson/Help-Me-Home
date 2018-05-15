@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import GUI.Button;
 import GUI.Draw;
-import Game.FinishLine;
+//import Game.FinishLine;
 import Game.GameMap;
 import Game.Particle;
 import Game.Spring;
@@ -30,7 +30,7 @@ public class Game extends Navigation {
 	public static double gOnP = 500;
 	
 	public static GameMap map;
-	private static FinishLine finishLine;
+	//private static FinishLine finishLine;
 	private static int ballsLeft;
 	
 	private static Button pause;
@@ -40,9 +40,9 @@ public class Game extends Navigation {
 	//private static Button options;
 	private static boolean isPaused = false;
 	private static BufferedImage pauseIndicator;
+	private static boolean gameOver = false; 
 	
 	public Game (String mapName) {
-		restart();
 		map = new GameMap(mapName);
 		pauseIndicator = FileManager.loadImage("PauseIndicator");
 		createButtons();
@@ -50,6 +50,7 @@ public class Game extends Navigation {
 		buttons.add(play);
 		buttons.add(restart);
 		buttons.add(goBack);
+		restart();
 	}
 	
 	private static void createButtons () {
@@ -85,6 +86,9 @@ public class Game extends Navigation {
 		particlesToAdd = new ArrayList<Particle>();
 		springs = new ArrayList<Spring>();
 		brokenSprings = new ArrayList<Spring>();
+		gameOver = false;
+		pause.setVisible(true);
+		play.setVisible(true);
 	}
 	
 	public void startpunkt() { //vi kan byta namn p� metoden om vi vill
@@ -98,9 +102,9 @@ public class Game extends Navigation {
 					addParticle(w+100, h, true); 
 					addParticle(w+50, h-50, true);
 				}
-				else if (rgb == finishColor) {
-					new FinishLine(w, h);
-				}
+				//else if (rgb == finishColor) {
+				//	new FinishLine(w, h);
+				//}
 			}
 		}
 	}
@@ -184,7 +188,7 @@ public class Game extends Navigation {
 		if (y == Boot.getCanvasHeight()) 
 			y--;	
 		color = helpFunctions.collisionColorD(x, y, map.getCollisionImage());
-		return color != Const.WHITE && color != Const.BLACK;
+		return color != Const.WHITE && color != Const.BLACK && color != Const.ORANGE;
 	}
 	
 	public void update (double dT) {
@@ -194,6 +198,12 @@ public class Game extends Navigation {
 			
 			for (Particle p : particles) {
 				p.addForce(new Vector(0, gOnP));
+				if( helpFunctions.collisionColorD((int)p.getXPos(), (int)p.getYPos(), map.getCollisionImage()) == Const.ORANGE 
+					&& !gameOver) {
+					gameOver = true;
+					pause.setVisible(false);
+					play.setVisible(false);
+				}
 			}
 			for (Spring sp : springs) {
 				sp.calcF();
@@ -214,22 +224,29 @@ public class Game extends Navigation {
 		}
 		for (Particle p : particles) {
 			p.render();
+		
 		}
 		if (isPaused) {
 			Draw.drawImg(850, 350, pauseIndicator);
 		}
+		if(gameOver == true) {
+			Draw.drawTextL(750, 500, "Game over");
+		}
 	}
 	
 	public void leftClick (int x, int y) {
-		if (ballsLeft() && !isPaused) {
+		if (ballsLeft() && !isPaused && !gameOver) {
 			addParticle(x, y, false);
 		}
 	}
 	
 	public void rightClick (int x, int y) {
-		if (ballsLeft() && !isPaused) {
+		if (ballsLeft() && !isPaused && !gameOver) {
 			addParticle(x, y, true);
 		}
+		
+	}
+	public void gameOver() {
 		
 	}
 }
