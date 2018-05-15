@@ -7,6 +7,9 @@ public class Const {
 	public static final double YELLOW = 0.2552550001;
 	public static final double BLACK = 	0.0000000001;
 	public static final double WHITE = 	0.2552552551; 
+	
+	
+	public static int delay = 10000; // milliseconds
   
 	public static int nbrOfBalls = 20;
 	public static int maxIniSpr = 4;
