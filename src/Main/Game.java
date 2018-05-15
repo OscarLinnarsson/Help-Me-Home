@@ -112,9 +112,13 @@ public class Game extends Navigation {
 	private static void addParticle(int x, int y, boolean isStatic) {
 		// check conditions for adding
 		// a particle here
-		Particle newP = new Particle(x, y, 1);
-		newP.setStaticPos(isStatic);
-		particlesToAdd.add(newP);
+		if(helpFunctions.collisionColorD(x, y,
+				map.getCollisionImage()) == Const.WHITE) {
+			
+			Particle newP = new Particle(x, y, 1);
+			newP.setStaticPos(isStatic);
+			particlesToAdd.add(newP);
+		}
 	}
 
 	public boolean ballsLeft() {
@@ -262,7 +266,4 @@ public class Game extends Navigation {
 
 	}
 
-	public void gameOver() {
-
-	}
 }
