@@ -2,13 +2,17 @@ package Game;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import GUI.Animation;
 import GUI.Draw;
+import Helpers.Const;
+import Helpers.FileManager;
+import Main.Boot;
 import Main.Game;
 
 public class Particle {
 	
 	private boolean staticPos = false;
-	private double r = 10;
+	private double r = 32;
 	private Color color = new Color(0,255,0);
 	private double Fc = 0.95;
 	
@@ -27,11 +31,16 @@ public class Particle {
 	private ArrayList<Vector> f;
 	private Vector fRes;
 	
+	private Animation animation;
+	
 	public Particle (int xPos, int yPos, double mass) {
 		xRi = xPos;
 		yRi = yPos;
 		m = mass;
 		f = new ArrayList<Vector>();
+		animation = new Animation(
+						FileManager.loadParticleImgArr(), 2, 10
+					);
 	}
 	
 	public void setStaticPos (boolean isStatic) {
@@ -76,6 +85,16 @@ public class Particle {
 	private boolean calcNewPos (double dT) {
 		xRf = xRi + xVf * dT;
 		yRf = yRi + yVf * dT;
+		
+		if(xRf >= Boot.getCanvasWidth())
+			xRf = Boot.getCanvasWidth();
+		else if (xRf <= 0)
+			xRf = 0;
+		if(yRf >= Boot.getCanvasHeight())
+			yRf = Boot.getCanvasHeight();
+		else if (yRf <= 0)
+			yRf = 0;
+		
 		return Game.checkGroundCol((int)xRf, (int)yRf)? false : true; 
 		//if no collision true is returned
 	}
@@ -93,7 +112,17 @@ public class Particle {
 	}
 	
 	public void render() {
-		Draw.drawCircle((int)xRi, (int)yRi, (int)r, color);
+		paintMeLikeOneOfYourFrenchGirls();
+	}
+	
+	private void paintMeLikeOneOfYourFrenchGirls () {
+		//if (Const.showFaces) {
+			//int radius = 32;
+			Draw.drawImg((int)(xRi-r), (int)(yRi-r), animation.getImage());
+		//} else {
+			//Draw.drawCircle((int)xRi, (int)yRi, (int)r, color);
+		//}
+		
 	}
 	
 }
