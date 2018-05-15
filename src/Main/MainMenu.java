@@ -8,17 +8,17 @@ import Helpers.FileManager;
 
 public class MainMenu extends Navigation {
 	
-	BufferedImage menu;
+	BufferedImage backgroundImg;
 
 	public MainMenu () {
-		this.menu = FileManager.loadImage("MainMenu");	
+		backgroundImg = FileManager.loadImage("MainMenu");	
 	}
 	
 	public void initialize () {
 		buttons.add(new Button("Play", 1280, 580, new Runnable() {
 			@Override
 			public void run() {
-				Boot.goToGame();
+				Boot.goToSelectMap();
 			}
 		}));
 		/*buttons.add(new Button("Credits", 600, 450, new Runnable() {
@@ -40,8 +40,7 @@ public class MainMenu extends Navigation {
 	}
 	
 	public void render () {
-		MainMenu background = new MainMenu();
-		Draw.drawBackground(background.menu);
+		Draw.drawBackground(backgroundImg);
 		Draw.drawButtons(buttons);
 	}
 	

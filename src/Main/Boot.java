@@ -10,6 +10,7 @@ import javax.swing.WindowConstants;
 
 import GUI.Button;
 import GUI.Draw;
+import Game.GameMap;
 import Helpers.MouseInput;
 
 public class Boot {
@@ -19,6 +20,7 @@ public class Boot {
 	private static JFrame frame;
 	private static Draw canvas = new Draw();
 	private static Game game = new Game("1 Backyard");
+	private static SelectMap selectMap = new SelectMap();
 	private static MainMenu mainMenu = new MainMenu();
 	private static Settings settings = new Settings();
 	private static Credits credits = new Credits();
@@ -107,10 +109,15 @@ public class Boot {
 		process = credits;
 	}
 	
-	public static void goToGame () {
-		game = new Game("1 Backyard"); 
+	public static void goToSelectMap () {
+		process = selectMap;
+	}
+	
+	public static void goToGame (GameMap map) {
+		//game = new Game("1 Backyard"); 
 		//game = new Game("NextLevel");
 		//game = new Game("WaterPassage");
+		game = new Game(map);
 		process = game;
 	}
 	
