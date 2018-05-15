@@ -237,15 +237,14 @@ public class Game extends Navigation {
 			p.render();
 
 		}
-		if (isPaused) {
-			Draw.drawImg(850, 350, pauseIndicator);
-		}
-		if (gameOver == true) {
-			Draw.drawTextL(750, 500, "Game over");
-		}
+		
 		if (win == true) {
 			Draw.drawTextL(750, 500, "You won!");
 			Draw.drawTextM(765, 575, "You used: " + Integer.toString(Const.nbrOfBalls-ballsLeft) + " balls");
+		} else if (gameOver == true) {
+			Draw.drawTextL(750, 500, "Game over");
+		} else if (isPaused) {
+			Draw.drawImg(850, 350, pauseIndicator);
 		}
 	}
 
