@@ -37,8 +37,6 @@ public class Boot {
 		canvas.initialize();
 		canvas.addMouseListener(new MouseInput(frame));
 		
-		game.startpunkt();
-		
 		lastUpdate = System.currentTimeMillis();
 		goToMainMenu();
 		
@@ -110,7 +108,9 @@ public class Boot {
 	}
 	
 	public static void goToGame () {
+    //game = new Game("1 Backyard"); 
 		game = new Game("NextLevel");
+    //game = new Game("WaterPassage");
 		process = game;
 	}
 	
