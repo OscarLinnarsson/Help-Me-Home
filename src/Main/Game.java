@@ -99,9 +99,9 @@ public class Game extends Navigation {
 			for (int w = 0; w < map.getCollisionImage().getWidth(); w++) {
 				rgb = map.getCollisionImage().getRGB(w, h);
 				if (rgb == startColor) {
-					addParticle(w, h, true);
-					addParticle(w + 100, h, true);
-					addParticle(w + 50, h - 50, true);
+					addParticle(w, h, false);
+					addParticle(w + 200, h, false);
+					addParticle(w + 100, h - 100, false);
 				}
 			}
 		}
