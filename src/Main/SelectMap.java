@@ -13,6 +13,7 @@ public class SelectMap extends Navigation {
 	private static BufferedImage backgroundImg;
 	private static int pageNum = 0;
 	private static ArrayList<GameMap> maps;
+	private static Button goBack;
 	private static Button next;
 	private static Button previous;
 	
@@ -20,6 +21,12 @@ public class SelectMap extends Navigation {
 	
 	public SelectMap () {
 		backgroundImg = FileManager.loadImage("BackgroundLevels");
+		goBack = new Button("Exit", 25, 30, new Runnable() {
+			@Override
+			public void run() {
+				Boot.goToMainMenu();
+			}
+		});
 		next = new Button("next", 1730, 500, new Runnable() {
 			@Override
 			public void run() {
@@ -36,6 +43,7 @@ public class SelectMap extends Navigation {
 				}
 			}
 		});
+		buttons.add(goBack);
 		buttons.add(next);
 		buttons.add(previous);
 		maps = new ArrayList<GameMap>();
@@ -75,13 +83,13 @@ public class SelectMap extends Navigation {
 			y = 250;
 		} else if (maps.size() % 4 == 2) {
 			x = 1030;
-			y = 600;
-		} else if (maps.size() % 4 == 3) {
-			x = 1030;
 			y = 250;
+		} else if (maps.size() % 4 == 3) {
+			x = 530;
+			y = 600;
 		} else if (maps.size() % 4 == 0) {
-			x = 0;
-			y = 0;
+			x = 1030;
+			y = 600;
 		}
 		map.getButton().setX(x);
 		map.getButton().setY(y);
