@@ -39,4 +39,12 @@ public class FileManager {
 		return arr;
 	}
 	
+	public static ArrayList<String> getAllMapNames() {
+		ArrayList<String> maps = new ArrayList<String>();
+		maps.add("1 Backyard");
+		maps.add("NextLevel");
+		maps.add("WaterPassage");
+		return maps;
+	}
+	
 }

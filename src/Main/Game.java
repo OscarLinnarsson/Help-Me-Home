@@ -39,8 +39,16 @@ public class Game extends Navigation {
 	private static BufferedImage pauseIndicator;
 	private static boolean gameOver = false;
 
+	public Game(GameMap _map) {
+		initialize(_map);
+	}
+	
 	public Game(String mapName) {
-		map = new GameMap(mapName);
+		initialize(new GameMap(mapName));
+	}
+	
+	private void initialize (GameMap _map) {
+		map = _map;
 		pauseIndicator = FileManager.loadImage("PauseIndicator");
 		createButtons();
 		buttons.add(pause);
