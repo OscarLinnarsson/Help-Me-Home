@@ -213,9 +213,9 @@ public class Game extends Navigation {
 		double color = 0;
 		if (x == Boot.getCanvasWidth())
 			x--;
-		if (y == Boot.getCanvasHeight())
-			y--;
-		color = helpFunctions.collisionColorD(x, y);
+		if (y == Boot.getCanvasHeight()) 
+			y--;	
+		color = helpFunctions.collisionColorD(x, y, map.getCollisionImage());
 		return color != Const.WHITE && color != Const.BLACK;
 	}
 
