@@ -65,6 +65,7 @@ public class SelectMap extends Navigation {
 			}
 		});
 		maps.add(map);
+		buttons.add(map.getButton());
 		int x = 0;
 		int y = 0;
 		if (maps.size() % 4 == 1) {
