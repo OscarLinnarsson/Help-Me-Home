@@ -6,6 +6,7 @@ import GUI.Animation;
 import GUI.Draw;
 import Helpers.Const;
 import Helpers.FileManager;
+import Helpers.helpFunctions;
 import Main.Boot;
 import Main.Game;
 
@@ -60,6 +61,9 @@ public class Particle {
 				xVi = xVf;
 				yVi = yVf;
 			} else {
+				if (xVf > 1) {
+					
+				}
 				xVi = 0;
 				yVi = 0;
 			}
@@ -85,6 +89,15 @@ public class Particle {
 	private boolean calcNewPos (double dT) {
 		xRf = xRi + xVf * dT;
 		yRf = yRi + yVf * dT;
+		
+		if (Game.checkGroundCol((int)xRf, (int)yRf)) {
+			if (helpFunctions.collisionColorD(
+					(int)xRf, (int)yRf, Game.getColMap())) {
+				
+			}
+		} else {
+			
+		}
 		
 		if(xRf >= Boot.getCanvasWidth())
 			xRf = Boot.getCanvasWidth();

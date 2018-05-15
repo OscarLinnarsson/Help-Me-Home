@@ -110,8 +110,10 @@ public class Game extends Navigation {
 	private static void addParticle(int x, int y, boolean isStatic) {
 		// check conditions for adding
 		// a particle here
-		if(helpFunctions.collisionColorD(x, y,
-				map.getCollisionImage()) == Const.WHITE) {
+		if(	helpFunctions.collisionColorD(x, y,
+			map.getCollisionImage()) == Const.WHITE
+			|| helpFunctions.collisionColorD(x, y,
+			map.getCollisionImage()) == Const.BLACK) {
 			
 			Particle newP = new Particle(x, y, 1);
 			newP.setStaticPos(isStatic);
@@ -188,6 +190,10 @@ public class Game extends Navigation {
 
 		return color != Const.WHITE && color != Const.BLACK && color != Const.ORANGE;
 	}
+	
+	public static BufferedImage getColMap () {
+		return map.getCollisionImage();
+	}
 
 	public void update(double dT) {
 		if (!isPaused) {
@@ -246,13 +252,15 @@ public class Game extends Navigation {
 	}
 
 	public void leftClick(int x, int y) {
-		if (ballsLeft() && !isPaused && !gameOver) {
+		if (ballsLeft() && !isPaused && 
+			!gameOver && !win) {
 			addParticle(x, y, false);
 		}
 	}
 
 	public void rightClick(int x, int y) {
-		if (ballsLeft() && !isPaused && !gameOver) {
+		if (ballsLeft() && !isPaused && 
+			!gameOver && !win) {
 			addParticle(x, y, true);
 		}
 
