@@ -18,10 +18,11 @@ public class Boot {
 	private static Navigation process;
 	private static JFrame frame;
 	private static Draw canvas = new Draw();
-	private static Game game = new Game();
+	private static Game game = new Game("1 Backyard");
 	private static MainMenu mainMenu = new MainMenu();
 	private static Settings settings = new Settings();
 	private static Credits credits = new Credits();
+	private static Timer timer;
 	
 	public static void main (String[] args) {
 		mainMenu.initialize();
@@ -37,7 +38,6 @@ public class Boot {
 		canvas.addMouseListener(new MouseInput(frame));
 		
 		lastUpdate = System.currentTimeMillis();
-		//goToGame();
 		goToMainMenu();
 		
 		AbstractAction doOneStep = new AbstractAction () {
@@ -49,7 +49,7 @@ public class Boot {
 				repaint();
 			}
 		};
-		Timer timer = new Timer(17, doOneStep);
+		timer = new Timer(17, doOneStep);
 		timer.setCoalesce(true);
 		timer.start();
 		
@@ -94,8 +94,9 @@ public class Boot {
 		return canvas.getHeight();
 	}
 	
-	public static void goToMainMenu () {
+	public static boolean goToMainMenu () {
 		process = mainMenu;
+		return true;
 	}
 	
 	public static void goToSettings () {
@@ -107,6 +108,9 @@ public class Boot {
 	}
 	
 	public static void goToGame () {
+    //game = new Game("1 Backyard"); 
+		game = new Game("NextLevel");
+    //game = new Game("WaterPassage");
 		process = game;
 	}
 	
