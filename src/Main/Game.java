@@ -32,9 +32,7 @@ public class Game extends Navigation {
 	private static ArrayList<Spring> brokenSprings;
 	public static double gOnP = 500;
 
-	private static Const constant;
 	private static GameMap map;
-	// private static FinishLine finishLine;
 	private static int ballsLeft;
 
 	private static Button pause;
@@ -46,7 +44,6 @@ public class Game extends Navigation {
 	private static BufferedImage pauseIndicator;
 
 	public Game(String mapName) {
-		restart();
 		map = new GameMap(mapName);
 		pauseIndicator = FileManager.loadImage("PauseIndicator");
 		createButtons();
@@ -54,6 +51,7 @@ public class Game extends Navigation {
 		buttons.add(play);
 		buttons.add(restart);
 		buttons.add(goBack);
+		restart();
 	}
 
 	private static void createButtons() {
@@ -96,17 +94,14 @@ public class Game extends Navigation {
 	private static void startpunkt() { // vi kan byta namn p� metoden om vi vill
 		int rgb;
 		for (int h = 0; h < map.getCollisionImage().getHeight(); h++) {
-			// for (int w = map.getCollisionImage().getWidth(); w>0; w--) {
+//		for (int h = map.getCollisionImage().getHeight(); h>0; h--) {
+//			for (int w = map.getCollisionImage().getWidth(); w>0; w--) {
 			for (int w = 0; w < map.getCollisionImage().getWidth(); w++) {
 				rgb = map.getCollisionImage().getRGB(w, h);
 				if (rgb == startColor) {
 					addParticle(w, h, true);
 					addParticle(w + 100, h, true);
 					addParticle(w + 50, h - 50, true);
-				} else if (rgb == finishColor) {
-
-					startTimer();
-//					new FinishLine(w, h);
 				}
 			}
 		}
@@ -116,22 +111,19 @@ public class Game extends Navigation {
 
 		Timer timer = new Timer();
 
-//		int delay = 10000; // milliseconds
-
 		timer.schedule(new TimerTask() {
 
 			public void run() {
-//				checkFinishLine();
 				for (Particle p : Game.particles) {
-					int color = Game.map.getCollisionImage().getRGB((int)p.getXPos(), (int)p.getYPos());
-				
+					int color = Game.map.getCollisionImage().getRGB((int) p.getXPos(), (int) p.getYPos());
+
 					if (finishColor == color) {
 						win = true;
 					}
 				}
-				}
+			}
 
-		}, constant.delay);
+		}, Const.delay);
 
 		timer.cancel();
 
@@ -213,9 +205,12 @@ public class Game extends Navigation {
 		double color = 0;
 		if (x == Boot.getCanvasWidth())
 			x--;
-		if (y == Boot.getCanvasHeight()) 
-			y--;	
+		if (y == Boot.getCanvasHeight())
+			y--;
 		color = helpFunctions.collisionColorD(x, y, map.getCollisionImage());
+		if (color == Const.BLACK) {
+			startTimer();
+		}
 		return color != Const.WHITE && color != Const.BLACK;
 	}
 
