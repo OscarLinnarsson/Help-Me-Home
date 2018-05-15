@@ -110,7 +110,7 @@ public class Boot {
 	}
 	
 	public static void goToGame () {
-		game = new Game("1 Backyard");
+		game = new Game("WaterPassage");
 		process = game;
 	}
 	
