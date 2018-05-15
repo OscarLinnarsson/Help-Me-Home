@@ -15,7 +15,7 @@ public class MainMenu extends Navigation {
 	}
 	
 	public void initialize () {
-		buttons.add(new Button("Play", 1280, 580, new Runnable() {
+		buttons.add(new Button("Play", 1280, 550, new Runnable() {
 			@Override
 			public void run() {
 				Boot.goToSelectMap();
@@ -27,7 +27,7 @@ public class MainMenu extends Navigation {
 				Boot.goToGame();
 			}
 		}));*/
-		buttons.add(new Button("Quit", 1280, 830, new Runnable() {
+		buttons.add(new Button("Quit", 1280, 800, new Runnable() {
 			@Override
 			public void run() {
 				System.exit(0);
