@@ -42,8 +42,9 @@ public class Game extends Navigation {
 	// private static Button options;
 	private static boolean isPaused = false;
 	private static BufferedImage pauseIndicator;
-
-	public Game(String mapName) {
+	private static boolean gameOver = false; 
+	
+	public Game (String mapName) {
 		map = new GameMap(mapName);
 		pauseIndicator = FileManager.loadImage("PauseIndicator");
 		createButtons();
@@ -88,6 +89,9 @@ public class Game extends Navigation {
 		particlesToAdd = new ArrayList<Particle>();
 		springs = new ArrayList<Spring>();
 		brokenSprings = new ArrayList<Spring>();
+		gameOver = false;
+		pause.setVisible(true);
+		play.setVisible(true);
 		startpunkt();
 	}
 
@@ -102,7 +106,7 @@ public class Game extends Navigation {
 					addParticle(w, h, false);
 					addParticle(w + 200, h, false);
 					addParticle(w + 100, h - 100, false);
-				}
+        }
 			}
 		}
 	}
@@ -211,7 +215,7 @@ public class Game extends Navigation {
 		if (color == Const.BLACK) {
 			startTimer();
 		}
-		return color != Const.WHITE && color != Const.BLACK;
+		return color != Const.WHITE && color != Const.BLACK && color != Const.ORANGE;
 	}
 
 	public void update(double dT) {
@@ -221,6 +225,12 @@ public class Game extends Navigation {
 
 			for (Particle p : particles) {
 				p.addForce(new Vector(0, gOnP));
+				if( helpFunctions.collisionColorD((int)p.getXPos(), (int)p.getYPos(), map.getCollisionImage()) == Const.ORANGE 
+					&& !gameOver) {
+					gameOver = true;
+					pause.setVisible(false);
+					play.setVisible(false);
+				}
 			}
 			for (Spring sp : springs) {
 				sp.calcF();
@@ -241,22 +251,29 @@ public class Game extends Navigation {
 		}
 		for (Particle p : particles) {
 			p.render();
+		
 		}
 		if (isPaused) {
 			Draw.drawImg(850, 350, pauseIndicator);
 		}
+		if(gameOver == true) {
+			Draw.drawTextL(750, 500, "Game over");
+		}
 	}
-
-	public void leftClick(int x, int y) {
-		if (ballsLeft() && !isPaused) {
+  
+	public void leftClick (int x, int y) {
+		if (ballsLeft() && !isPaused && !gameOver) {
 			addParticle(x, y, false);
 		}
 	}
-
-	public void rightClick(int x, int y) {
-		if (ballsLeft() && !isPaused) {
+	
+	public void rightClick (int x, int y) {
+		if (ballsLeft() && !isPaused && !gameOver) {
 			addParticle(x, y, true);
 		}
 
+	}
+	public void gameOver() {
+		
 	}
 }
