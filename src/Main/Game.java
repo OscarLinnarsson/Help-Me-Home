@@ -5,12 +5,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import GUI.Button;
 import GUI.Draw;
-//import Game.FinishLine;
 import Game.GameMap;
 import Game.Particle;
 import Game.Spring;
@@ -22,9 +19,10 @@ import Helpers.helpFunctions;
 public class Game extends Navigation {
 
 	private static int startColor = new Color(255, 0, 255).getRGB();
-	private static int finishColor = new Color(0, 0, 0).getRGB();
+	// private static int finishColor = new Color(0, 0, 0).getRGB();
 
 	private static boolean win = false;
+	private static int winSec;
 
 	public static ArrayList<Particle> particles;
 	private static ArrayList<Particle> particlesToAdd;
@@ -42,9 +40,9 @@ public class Game extends Navigation {
 	// private static Button options;
 	private static boolean isPaused = false;
 	private static BufferedImage pauseIndicator;
-	private static boolean gameOver = false; 
-	
-	public Game (String mapName) {
+	private static boolean gameOver = false;
+
+	public Game(String mapName) {
 		map = new GameMap(mapName);
 		pauseIndicator = FileManager.loadImage("PauseIndicator");
 		createButtons();
@@ -84,6 +82,7 @@ public class Game extends Navigation {
 
 	private static void restart() {
 		win = false;
+		winSec = 0;
 		ballsLeft = Const.nbrOfBalls;
 		particles = new ArrayList<Particle>();
 		particlesToAdd = new ArrayList<Particle>();
@@ -98,39 +97,16 @@ public class Game extends Navigation {
 	private static void startpunkt() { // vi kan byta namn p� metoden om vi vill
 		int rgb;
 		for (int h = 0; h < map.getCollisionImage().getHeight(); h++) {
-//		for (int h = map.getCollisionImage().getHeight(); h>0; h--) {
-//			for (int w = map.getCollisionImage().getWidth(); w>0; w--) {
+
 			for (int w = 0; w < map.getCollisionImage().getWidth(); w++) {
 				rgb = map.getCollisionImage().getRGB(w, h);
 				if (rgb == startColor) {
 					addParticle(w, h, false);
 					addParticle(w + 200, h, false);
 					addParticle(w + 100, h - 100, false);
-        }
-			}
-		}
-	}
-
-	private static void startTimer() {
-
-		Timer timer = new Timer();
-
-		timer.schedule(new TimerTask() {
-
-			public void run() {
-				for (Particle p : Game.particles) {
-					int color = Game.map.getCollisionImage().getRGB((int) p.getXPos(), (int) p.getYPos());
-
-					if (finishColor == color) {
-						win = true;
-					}
 				}
 			}
-
-		}, Const.delay);
-
-		timer.cancel();
-
+		}
 	}
 
 	private static void addParticle(int x, int y, boolean isStatic) {
@@ -212,9 +188,7 @@ public class Game extends Navigation {
 		if (y == Boot.getCanvasHeight())
 			y--;
 		color = helpFunctions.collisionColorD(x, y, map.getCollisionImage());
-		if (color == Const.BLACK) {
-			startTimer();
-		}
+
 		return color != Const.WHITE && color != Const.BLACK && color != Const.ORANGE;
 	}
 
@@ -225,11 +199,21 @@ public class Game extends Navigation {
 
 			for (Particle p : particles) {
 				p.addForce(new Vector(0, gOnP));
-				if( helpFunctions.collisionColorD((int)p.getXPos(), (int)p.getYPos(), map.getCollisionImage()) == Const.ORANGE 
-					&& !gameOver) {
+				if (helpFunctions.collisionColorD((int) p.getXPos(), (int) p.getYPos(),
+						map.getCollisionImage()) == Const.ORANGE && !gameOver) {
 					gameOver = true;
 					pause.setVisible(false);
 					play.setVisible(false);
+				}
+				if (helpFunctions.collisionColorD((int) p.getXPos(), (int) p.getYPos(),
+						map.getCollisionImage()) == Const.BLACK) {
+
+					if (winSec == 10) {
+						win = true;
+						pause.setVisible(false);
+						play.setVisible(false);
+					}
+					winSec++;
 				}
 			}
 			for (Spring sp : springs) {
@@ -251,29 +235,34 @@ public class Game extends Navigation {
 		}
 		for (Particle p : particles) {
 			p.render();
-		
+
 		}
 		if (isPaused) {
 			Draw.drawImg(850, 350, pauseIndicator);
 		}
-		if(gameOver == true) {
+		if (gameOver == true) {
 			Draw.drawTextL(750, 500, "Game over");
 		}
+		if (win == true) {
+			Draw.drawTextL(750, 500, "You won!");
+			Draw.drawTextM(765, 575, "You used: " + Integer.toString(Const.nbrOfBalls-ballsLeft) + " balls");
+		}
 	}
-  
-	public void leftClick (int x, int y) {
+
+	public void leftClick(int x, int y) {
 		if (ballsLeft() && !isPaused && !gameOver) {
 			addParticle(x, y, false);
 		}
 	}
-	
-	public void rightClick (int x, int y) {
+
+	public void rightClick(int x, int y) {
 		if (ballsLeft() && !isPaused && !gameOver) {
 			addParticle(x, y, true);
 		}
 
 	}
+
 	public void gameOver() {
-		
+
 	}
 }
