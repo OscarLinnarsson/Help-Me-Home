@@ -97,13 +97,11 @@ public class Game extends Navigation {
 	private static void startpunkt() { // vi kan byta namn p� metoden om vi vill
 		int rgb;
 		for (int h = 0; h < map.getCollisionImage().getHeight(); h++) {
-
 			for (int w = 0; w < map.getCollisionImage().getWidth(); w++) {
 				rgb = map.getCollisionImage().getRGB(w, h);
 				if (rgb == startColor) {
 					addParticle(w, h, false);
-					addParticle(w + 200, h, false);
-					addParticle(w + 100, h - 100, false);
+					break;
 				}
 			}
 		}
@@ -119,11 +117,6 @@ public class Game extends Navigation {
 
 	public boolean ballsLeft() {
 		return ballsLeft > 0 ? true : false;
-	}
-
-	private static void addStaticParticle(int x, int y) {
-		particles.add(new Particle(x, y, 1));
-		particles.get(particles.size() - 1).setStaticPos(true);
 	}
 
 	private static void addSpring(Particle p1, Particle p2) {
