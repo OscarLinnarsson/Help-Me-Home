@@ -80,7 +80,7 @@ public class Game extends Navigation {
 		goBack = new Button("Exit", 1150, 30, new Runnable() {
 			@Override
 			public void run() {
-				Boot.goToMainMenu();
+				Boot.goToSelectMap();
 			}
 		});
 	}
