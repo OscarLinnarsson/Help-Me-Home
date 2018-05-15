@@ -17,10 +17,7 @@ import Helpers.FileManager;
 import Helpers.helpFunctions;
 
 public class Game extends Navigation {
-
-	private static int startColor = new Color(255, 0, 255).getRGB();
-	// private static int finishColor = new Color(0, 0, 0).getRGB();
-
+	
 	private static boolean win = false;
 	private static int winSec;
 
@@ -95,11 +92,11 @@ public class Game extends Navigation {
 	}
 
 	private static void startParticle() {
-		int rgb;
+		double rgb;
 		for (int h = 0; h < map.getCollisionImage().getHeight(); h++) {
 			for (int w = 0; w < map.getCollisionImage().getWidth(); w++) {
-				rgb = map.getCollisionImage().getRGB(w, h);
-				if (rgb == startColor) {
+				rgb = helpFunctions.collisionColorD(w, h, map.getCollisionImage());
+				if (rgb == Const.PINK) {
 					addParticle(w, h, false);
 					break;
 				}
@@ -113,7 +110,9 @@ public class Game extends Navigation {
 		if(	helpFunctions.collisionColorD(x, y,
 			map.getCollisionImage()) == Const.WHITE
 			|| helpFunctions.collisionColorD(x, y,
-			map.getCollisionImage()) == Const.BLACK) {
+			map.getCollisionImage()) == Const.BLACK
+			|| helpFunctions.collisionColorD(x, y,
+			map.getCollisionImage()) == Const.PINK) {
 			
 			Particle newP = new Particle(x, y, 1);
 			newP.setStaticPos(isStatic);
@@ -188,7 +187,10 @@ public class Game extends Navigation {
 			y--;
 		color = helpFunctions.collisionColorD(x, y, map.getCollisionImage());
 
-		return color != Const.WHITE && color != Const.BLACK && color != Const.ORANGE;
+		return 	color != Const.WHITE 
+				&& color != Const.BLACK 
+				&& color != Const.ORANGE
+				&& color != Const.PINK;
 	}
 	
 	public static BufferedImage getColMap () {
