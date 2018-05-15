@@ -43,7 +43,7 @@ public class FileManager {
 		ArrayList<String> maps = new ArrayList<String>();
 		maps.add("Backyard");
 		maps.add("WaterPassage");
-		maps.add("ToTop");
+		maps.add("Escalator");
 		maps.add("NextLevel");
 		return maps;
 	}
