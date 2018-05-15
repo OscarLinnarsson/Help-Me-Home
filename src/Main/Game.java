@@ -91,10 +91,10 @@ public class Game extends Navigation {
 		gameOver = false;
 		pause.setVisible(true);
 		play.setVisible(true);
-		startpunkt();
+		startParticle();
 	}
 
-	private static void startpunkt() { // vi kan byta namn p� metoden om vi vill
+	private static void startParticle() {
 		int rgb;
 		for (int h = 0; h < map.getCollisionImage().getHeight(); h++) {
 			for (int w = 0; w < map.getCollisionImage().getWidth(); w++) {
@@ -110,8 +110,10 @@ public class Game extends Navigation {
 	private static void addParticle(int x, int y, boolean isStatic) {
 		// check conditions for adding
 		// a particle here
-		if(helpFunctions.collisionColorD(x, y,
-				map.getCollisionImage()) == Const.WHITE) {
+		if(	helpFunctions.collisionColorD(x, y,
+			map.getCollisionImage()) == Const.WHITE
+			|| helpFunctions.collisionColorD(x, y,
+			map.getCollisionImage()) == Const.BLACK) {
 			
 			Particle newP = new Particle(x, y, 1);
 			newP.setStaticPos(isStatic);
@@ -188,6 +190,10 @@ public class Game extends Navigation {
 
 		return color != Const.WHITE && color != Const.BLACK && color != Const.ORANGE;
 	}
+	
+	public static BufferedImage getColMap () {
+		return map.getCollisionImage();
+	}
 
 	public void update(double dT) {
 		if (!isPaused) {
@@ -196,15 +202,20 @@ public class Game extends Navigation {
 
 			for (Particle p : particles) {
 				p.addForce(new Vector(0, gOnP));
+			}
+			for (Spring sp : springs) {
+				sp.calcF();
+			}
+			for (Particle p : particles) {
+				p.update(dT);
 				if (helpFunctions.collisionColorD((int) p.getXPos(), (int) p.getYPos(),
 						map.getCollisionImage()) == Const.ORANGE && !gameOver) {
 					gameOver = true;
 					pause.setVisible(false);
 					play.setVisible(false);
 				}
-				if (helpFunctions.collisionColorD((int) p.getXPos(), (int) p.getYPos(),
-						map.getCollisionImage()) == Const.BLACK) {
-
+				else if (helpFunctions.collisionColorD((int) p.getXPos(), (int) p.getYPos(),
+						map.getCollisionImage()) == Const.BLACK && !gameOver) {
 					if (winSec == 10) {
 						win = true;
 						pause.setVisible(false);
@@ -213,18 +224,12 @@ public class Game extends Navigation {
 					winSec++;
 				}
 			}
-			for (Spring sp : springs) {
-				sp.calcF();
-			}
-			for (Particle p : particles) {
-				p.update(dT);
-			}
 		}
 	}
 
 	public void render() {
 		Draw.drawImg(0, 0, map.getMapImage());
-		// Draw.drawImg(0, 0, map.getCollisionImage());
+		//Draw.drawImg(0, 0, map.getCollisionImage());
 		Draw.drawButtons(buttons);
 		Draw.drawTextM(20, 50, "Balls left: " + ballsLeft);
 		for (Spring sp : springs) {
@@ -235,10 +240,10 @@ public class Game extends Navigation {
 
 		}
 		
-		if (win == true) {
+		if (win) {
 			Draw.drawTextL(750, 500, "You won!");
 			Draw.drawTextM(765, 575, "You used: " + Integer.toString(Const.nbrOfBalls-ballsLeft) + " balls");
-		} else if (gameOver == true) {
+		} else if (gameOver) {
 			Draw.drawTextL(750, 500, "Game over");
 		} else if (isPaused) {
 			Draw.drawImg(850, 350, pauseIndicator);
@@ -246,13 +251,15 @@ public class Game extends Navigation {
 	}
 
 	public void leftClick(int x, int y) {
-		if (ballsLeft() && !isPaused && !gameOver) {
+		if (ballsLeft() && !isPaused && 
+			!gameOver && !win) {
 			addParticle(x, y, false);
 		}
 	}
 
 	public void rightClick(int x, int y) {
-		if (ballsLeft() && !isPaused && !gameOver) {
+		if (ballsLeft() && !isPaused && 
+			!gameOver && !win) {
 			addParticle(x, y, true);
 		}
 

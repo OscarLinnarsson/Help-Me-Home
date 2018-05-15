@@ -6,6 +6,7 @@ import GUI.Animation;
 import GUI.Draw;
 import Helpers.Const;
 import Helpers.FileManager;
+import Helpers.helpFunctions;
 import Main.Boot;
 import Main.Game;
 
@@ -52,17 +53,14 @@ public class Particle {
 	
 	public void update (double dT) {
 		if (!staticPos) {
+			System.out.println("dt: " + dT);
 			calcFRes();
 			calcSpeed(dT);
-			if (calcNewPos(dT)) { // no collision
-				xRi = xRf;
-				yRi = yRf;
-				xVi = xVf;
-				yVi = yVf;
-			} else {
-				xVi = 0;
-				yVi = 0;
-			}
+			calcNewPos(dT);
+			xRi = xRf;
+			yRi = yRf;
+			xVi = xVf;
+			yVi = yVf;
 		}
 	}
 	
@@ -83,8 +81,76 @@ public class Particle {
 	}
 	
 	private boolean calcNewPos (double dT) {
+		boolean colDetected = false;
 		xRf = xRi + xVf * dT;
 		yRf = yRi + yVf * dT;
+		
+		if (Game.checkGroundCol((int)xRf, (int)yRf)) {
+			//MOVE UP
+			if (helpFunctions.collisionColorD((int)xRf, (int)yRf, 
+					Game.getColMap()) == Const.RED) {
+				colDetected = true;
+				yRf = helpFunctions.getNewYPos((int)xRf, (int)yRf, -1, 
+						Game.getColMap());
+				yVf = 0;
+				if (Math.abs(xRf-xRi) > Const.fricThreshold) {
+					xVf = xVf * Const.fricLoss;
+					xRf = xRi + xVf * dT;
+				} else {
+					xVf = 0;
+					xRf = xRi;
+				}
+			} 
+			//MOVE RIGHT
+			else if (helpFunctions.collisionColorD((int)xRf, (int)yRf, 
+					Game.getColMap()) == Const.BLUE) {
+				colDetected = true;
+				xRf = helpFunctions.getNewXPos((int)xRf, (int)yRf, 1, 
+						Game.getColMap());
+				xVf = 0;
+				if (Math.abs(xRf-xRi) > Const.fricThreshold) {
+					yVf = yVf * Const.fricLoss;
+					yRf = yRi + yVf * dT;
+				} else {
+					yVf = 0;
+					yRf = yRi;
+				}
+			}
+			//MOVE DOWN
+			else if (helpFunctions.collisionColorD((int)xRf, (int)yRf, 
+					Game.getColMap()) == Const.GREEN) {
+				colDetected = true;
+				yRf = helpFunctions.getNewYPos((int)xRf, (int)yRf, 1, 
+						Game.getColMap());
+				yVf = 0;
+				if (Math.abs(xRf-xRi) > Const.fricThreshold) {
+					xVf = xVf * Const.fricLoss;
+					xRf = xRi + xVf * dT;
+				} else {
+					xVf = 0;
+					xRf = xRi;
+				}
+			}
+			//MOVE LEFT
+			else if (helpFunctions.collisionColorD((int)xRf, (int)yRf, 
+					Game.getColMap()) == Const.YELLOW) {
+				colDetected = true;
+				xRf = helpFunctions.getNewXPos((int)xRf, (int)yRf, -1, 
+						Game.getColMap());
+				xVf = 0;
+				if (Math.abs(xRf-xRi) > Const.fricThreshold) {
+					yVf = yVf * Const.fricLoss;
+					yRf = yRi + yVf * dT;
+				} else {
+					yVf = 0;
+					yRf = yRi;
+				}
+			}
+			//Caused stack overflow
+			/*if (Game.checkGroundCol((int)xRf, (int)yRf)) {
+				colDetected = calcNewPos(dT);
+			}*/
+		} 
 		
 		if(xRf >= Boot.getCanvasWidth())
 			xRf = Boot.getCanvasWidth();
@@ -95,7 +161,8 @@ public class Particle {
 		else if (yRf <= 0)
 			yRf = 0;
 		
-		return Game.checkGroundCol((int)xRf, (int)yRf)? false : true; 
+		return !colDetected;
+		//return Game.checkGroundCol((int)xRf, (int)yRf)? false : true; 
 		//if no collision true is returned
 	}
 	
@@ -116,13 +183,7 @@ public class Particle {
 	}
 	
 	private void paintMeLikeOneOfYourFrenchGirls () {
-		//if (Const.showFaces) {
-			//int radius = 32;
-			Draw.drawImg((int)(xRi-r), (int)(yRi-r), animation.getImage());
-		//} else {
-			//Draw.drawCircle((int)xRi, (int)yRi, (int)r, color);
-		//}
-		
+		Draw.drawImg((int)(xRi-r), (int)(yRi-r), animation.getImage());
 	}
 	
 }

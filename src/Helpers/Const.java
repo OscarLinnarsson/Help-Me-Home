@@ -9,6 +9,8 @@ public class Const {
 	public static final double WHITE = 	0.2552552551;
 	public static final double ORANGE = 0.2551530001;
 
+	public static int fricThreshold = 10;
+	public static double fricLoss = 0.6;
 	public static int delay = 10000; // milliseconds
 
 	public static int nbrOfBalls = 200;

@@ -32,12 +32,32 @@ public class helpFunctions {
 	}
 	
 	public static double collisionColorD (int x, int y, BufferedImage colMap) {
+		x = x < colMap.getWidth() ? x : colMap.getWidth()-1;
+		x = x >= 0 ? x : 0;
+		y = y < colMap.getHeight() ? y : colMap.getHeight()-1;
+		y = y >= 0 ? y : 0;
 		double color = 0.0000000001;
 		Color c = new Color(colMap.getRGB(x, y));
 		color += c.getRed()*0.001;
 		color += c.getGreen()*0.000001;
 		color += c.getBlue()*0.000000001;
 		return color;
+	}
+	
+	public static int getNewXPos (int x, int y, int dir, BufferedImage colMap) {
+		double startColor = collisionColorD(x, y, colMap);
+		while (startColor == collisionColorD(x, y, colMap)) {
+			x += dir;
+		}
+		return x;
+	}
+	
+	public static int getNewYPos (int x, int y, int dir, BufferedImage colMap) {
+		double startColor = collisionColorD(x, y, colMap);
+		while (startColor == collisionColorD(x, y, colMap)) {
+			y += dir;
+		}
+		return y;
 	}
 
 }
