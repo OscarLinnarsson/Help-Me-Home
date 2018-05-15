@@ -14,6 +14,17 @@ public class Button {
 	private Runnable onClick;
 	private boolean isVisible = true;
 	
+	public Button (BufferedImage _img) {
+		img = _img;
+		setX(0);
+		setY(0);
+		onClick = null;
+	}
+	
+	public Button (String buttonName) {
+		initialize(buttonName, 0, 0, null);
+	}
+	
 	public Button (String buttonName, int _x, int _y) {
 		initialize(buttonName, _x, _y, null);
 	}
@@ -23,11 +34,9 @@ public class Button {
 	}
 	
 	private void initialize (String buttonName, int _x, int _y, Runnable run) {
-		x = _x;
-		y = _y;
 		img = FileManager.loadImage("buttons/" + buttonName);
-		rightBound = x + img.getWidth();
-		bottomBound = y + img.getHeight();
+		setX(_x);
+		setY(_y);
 		onClick = run;
 	}
 	
@@ -59,7 +68,16 @@ public class Button {
 			}
 		}
 		return false;
-		
+	}
+	
+	public void setX (int _x) {
+		x = _x;
+		rightBound = x + img.getWidth();
+	}
+	
+	public void setY (int _y) {
+		y = _y;
+		bottomBound = y + img.getHeight();
 	}
 	
 	
