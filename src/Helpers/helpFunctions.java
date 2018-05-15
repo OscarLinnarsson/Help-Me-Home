@@ -9,8 +9,8 @@ public class helpFunctions {
 	
 
 
-	private static GameMap map = new GameMap("1 Backyard");
-	private static BufferedImage colMap = map.getCollisionImage();
+	//private static GameMap map = new GameMap("1 Backyard");
+	//private static BufferedImage colMap = map.getCollisionImage();
 	
 	
 	public helpFunctions() {
@@ -22,7 +22,7 @@ public class helpFunctions {
 	 * @param y - Your y value that you want to have the color of
 	 * @return - The color as an array in RGB, where 0 is red, 1 is green and 2 is blue
 	 */
-	public int[] collisionColor (int x, int y) {
+	public int[] collisionColor (int x, int y, BufferedImage colMap) {
 		int[] color = new int[3];
 		Color c = new Color(colMap.getRGB(x, y));
 		color[0] = c.getRed();
@@ -31,7 +31,7 @@ public class helpFunctions {
 		return color;
 	}
 	
-	public static double collisionColorD (int x, int y) {
+	public static double collisionColorD (int x, int y, BufferedImage colMap) {
 		double color = 0.0000000001;
 		Color c = new Color(colMap.getRGB(x, y));
 		color += c.getRed()*0.001;
