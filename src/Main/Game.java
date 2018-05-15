@@ -1,5 +1,6 @@
 package Main;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import java.util.TreeSet;
 
 import GUI.Animation;
 import GUI.Draw;
+import Game.FinishLine;
 import Game.GameMap;
 import Game.Particle;
 import Game.Spring;
@@ -16,14 +18,18 @@ import Helpers.FileManager;
 
 public class Game extends Navigation {
 
-	private static ArrayList<Particle> particles;
+	private int startColor = new Color(255,0,255).getRGB();
+	private int finishColor = new Color(0,0,0).getRGB();
+	
+	public static ArrayList<Particle> particles;
 	private static ArrayList<Particle> particlesToAdd;
 	private static ArrayList<Spring> springs;
 	private static ArrayList<Spring> brokenSprings;
 	public static double gOnP = 500;
 	
-	private static GameMap map;
+	public static GameMap map;
 	private static Animation animation;
+	private static FinishLine finishLine;
 	
 	public Game () {
 		particles = new ArrayList<Particle>();
@@ -44,6 +50,24 @@ public class Game extends Navigation {
 		imgs.add(FileManager.loadImage("partikeltriangel3"));
 		imgs.add(FileManager.loadImage("partikeltriangel4"));
 		animation = new Animation(imgs, 2, 30);
+	}
+	
+	public void startpunkt() { //vi kan byta namn på metoden om vi vill
+		int rgb;
+		for (int h = 0; h < map.getCollisionImage().getHeight(); h++) {
+//			for (int w = map.getCollisionImage().getWidth(); w>0; w--) {
+			for (int w = 0; w < map.getCollisionImage().getWidth(); w++) {
+				rgb = map.getCollisionImage().getRGB(w, h);
+				if (rgb == startColor) {
+					addParticle(w, h, true);
+					addParticle(w+100, h, true); 
+					addParticle(w+50, h-50, true);
+				}
+				else if (rgb == finishColor) {
+					new FinishLine(w, h);
+				}
+			}
+		}
 	}
 	
 	private static void addParticle (int x, int y, boolean isStatic) {

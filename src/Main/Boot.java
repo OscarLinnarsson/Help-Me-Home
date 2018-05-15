@@ -36,6 +36,8 @@ public class Boot {
 		canvas.initialize();
 		canvas.addMouseListener(new MouseInput(frame));
 		
+		game.startpunkt();
+		
 		lastUpdate = System.currentTimeMillis();
 		//goToGame();
 		goToMainMenu();
