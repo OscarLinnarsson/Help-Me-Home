@@ -72,10 +72,6 @@ public class Boot {
 		}
 	}
 	
-	public static void render(){
-		game.render();
-	}
-	
 	public static void rightClick (int x, int y) {
 		process.rightClick(x, y);
 	}

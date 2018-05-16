@@ -18,8 +18,8 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	private int frameY;
 	private int topBarHeight = 40;
 	private Point p;
-	private static int x;
-	private static int y;
+	public static int x;
+	public static int y;
 	private int pointerWidth = 15;
 	private int pointerHeight = 20;
 	
@@ -48,8 +48,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 		p = MouseInfo.getPointerInfo().getLocation();
 		x = (int) p.getX() - frameX - pointerWidth;
 		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
-		//x = (int) p.getX();
-		//y = (int) p.getY() - topBarHeight;
 		
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			Boot.leftClick(x, y);
@@ -76,11 +74,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 		x = (int) p.getX() - frameX - pointerWidth;
 		y = (int) p.getY() - frameY - pointerHeight - topBarHeight;
 		
-	}
-	
-	public static int[] getMouseCords(){
-		int[] cords = {x,y};
-		return cords;
 	}
 
 }

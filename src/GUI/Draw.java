@@ -20,7 +20,6 @@ public class Draw extends Canvas {
 	private static Dimension dim;
 	private static BufferStrategy bs; 
 	private static Graphics2D g;
-	private static Graphics2D gCirlce;
 	
 	public Draw () {
 		dim = new Dimension(1920, 1080);
@@ -36,10 +35,7 @@ public class Draw extends Canvas {
 			bs = getBufferStrategy();
 		}
 		g = (Graphics2D) bs.getDrawGraphics();
-		gCirlce = (Graphics2D) bs.getDrawGraphics();
 	}
-	
-
 	
 	public static void drawBackground () {  
 		g.setColor(Color.WHITE); 
@@ -92,13 +88,5 @@ public class Draw extends Canvas {
 	public static void showFrame () {
 		bs.show();
 	}
-	
-	/*
-	 * Kan man ha flera "2D-Graphics" i samma dim? Isf hade man kunant ha en
-	 * separat "2D-Graphis" Endast för hover-cirkeln, och cleara den successivt?
-	 * 	
-	 * Frågan är isf hur man får musens koordinater, och hur man ritar ut
-	 * gCircle.
-	 */
 	
 }

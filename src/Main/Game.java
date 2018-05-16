@@ -1,6 +1,5 @@
 package Main;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -243,7 +242,6 @@ public class Game extends Navigation {
 		}
 
 	public void render() {
-		System.out.println("rendering");
 		Draw.drawImg(0, 0, map.getMapImage());
 		//Draw.drawImg(0, 0, map.getCollisionImage());
 		Draw.drawButtons(buttons);
@@ -253,7 +251,6 @@ public class Game extends Navigation {
 		}
 		for (Particle p : particles) {
 			p.render();
-
 		}
 		
 		if (win) {
@@ -263,11 +260,8 @@ public class Game extends Navigation {
 			Draw.drawTextL(750, 500, "Game over");
 		} else if (isPaused) {
 			Draw.drawImg(850, 350, pauseIndicator);
-		}else if(hoverCircle){
-			System.out.println("Hellu");
-			System.out.println("x:" +  MouseInput.getMouseCords()[0]  + " | y:" + MouseInput.getMouseCords()[1] );
-			Draw.drawImg(MouseInput.getMouseCords()[0]-240,MouseInput.getMouseCords()[1]-240, GuideCircle);
-			
+		} else if(hoverCircle){
+			Draw.drawImg(MouseInput.x-240,MouseInput.y-240, GuideCircle);
 		}
 	}
 
