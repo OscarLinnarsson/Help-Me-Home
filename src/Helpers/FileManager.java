@@ -40,11 +40,18 @@ public class FileManager {
 	}
 	
 	public static ArrayList<String> getAllMapNames() {
+		File directory = new File("./res/maps");
+		File[] tmpFileList = directory.listFiles();
 		ArrayList<String> maps = new ArrayList<String>();
-		maps.add("Backyard");
-		maps.add("WaterPassage");
-		maps.add("Escalator");
-		maps.add("NextLevel");
+		for (File f : tmpFileList) {
+			//System.out.println(f.getName());
+			if (f.getName().endsWith("-c.png")) {
+				maps.add(f.getName().substring(0, 
+						f.getName().length()-6));// -6 to remove "-c.png"
+				//System.out.println(maps.get(maps.size()-1));
+			}
+			
+		}
 		return maps;
 	}
 	
