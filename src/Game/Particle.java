@@ -53,7 +53,6 @@ public class Particle {
 	
 	public void update (double dT) {
 		if (!staticPos) {
-			System.out.println("dt: " + dT);
 			calcFRes();
 			calcSpeed(dT);
 			calcNewPos(dT);
