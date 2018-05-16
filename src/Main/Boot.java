@@ -38,6 +38,7 @@ public class Boot {
 		frame.pack();
 		canvas.initialize();
 		canvas.addMouseListener(new MouseInput(frame));
+		canvas.addMouseMotionListener(new MouseInput(frame));
 		
 		lastUpdate = System.currentTimeMillis();
 		goToMainMenu();
@@ -69,6 +70,10 @@ public class Boot {
 		if (!buttonClicked) {
 			process.leftClick(x, y);
 		}
+	}
+	
+	public static void render(){
+		game.render();
 	}
 	
 	public static void rightClick (int x, int y) {

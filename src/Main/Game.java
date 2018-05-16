@@ -14,6 +14,7 @@ import Game.Spring;
 import Game.Vector;
 import Helpers.Const;
 import Helpers.FileManager;
+import Helpers.MouseInput;
 import Helpers.helpFunctions;
 
 public class Game extends Navigation {
@@ -37,7 +38,9 @@ public class Game extends Navigation {
 	// private static Button options;
 	private static boolean isPaused = false;
 	private static BufferedImage pauseIndicator;
+	private static BufferedImage GuideCircle;
 	private static boolean gameOver = false;
+	private static boolean hoverCircle = false;
 
 	public Game(GameMap _map) {
 		initialize(_map);
@@ -50,6 +53,7 @@ public class Game extends Navigation {
 	private void initialize (GameMap _map) {
 		map = _map;
 		pauseIndicator = FileManager.loadImage("PauseIndicator");
+		GuideCircle = FileManager.loadImage("GuideCircle");
 		createButtons();
 		buttons.add(pause);
 		buttons.add(play);
@@ -62,12 +66,14 @@ public class Game extends Navigation {
 		pause = new Button("Pause", 1750, 30, new Runnable() {
 			@Override
 			public void run() {
+				hoverCircle = false;
 				isPaused = true;
 			}
 		});
 		play = new Button("unPause", 1550, 30, new Runnable() {
 			@Override
 			public void run() {
+				hoverCircle = true;
 				isPaused = false;
 			}
 		});
@@ -86,6 +92,7 @@ public class Game extends Navigation {
 	}
 
 	private static void restart() {
+		hoverCircle = true;
 		win = false;
 		winSec = 0;
 		ballsLeft = Const.nbrOfBalls;
@@ -206,7 +213,6 @@ public class Game extends Navigation {
 	}
 
 	public void update(double dT) {
-		if (!isPaused) {
 			addParticles();
 			removeBrokenSprings();
 
@@ -235,9 +241,9 @@ public class Game extends Navigation {
 				}
 			}
 		}
-	}
 
 	public void render() {
+		System.out.println("rendering");
 		Draw.drawImg(0, 0, map.getMapImage());
 		//Draw.drawImg(0, 0, map.getCollisionImage());
 		Draw.drawButtons(buttons);
@@ -257,6 +263,11 @@ public class Game extends Navigation {
 			Draw.drawTextL(750, 500, "Game over");
 		} else if (isPaused) {
 			Draw.drawImg(850, 350, pauseIndicator);
+		}else if(hoverCircle){
+			System.out.println("Hellu");
+			System.out.println("x:" +  MouseInput.getMouseCords()[0]  + " | y:" + MouseInput.getMouseCords()[1] );
+			Draw.drawImg(MouseInput.getMouseCords()[0]-240,MouseInput.getMouseCords()[1]-240, GuideCircle);
+			
 		}
 	}
 
@@ -266,13 +277,11 @@ public class Game extends Navigation {
 			addParticle(x, y, false);
 		}
 	}
-
 	public void rightClick(int x, int y) {
 		if (ballsLeft() && !isPaused && 
 			!gameOver && !win) {
 			addParticle(x, y, true);
 		}
-
 	}
 
 }
