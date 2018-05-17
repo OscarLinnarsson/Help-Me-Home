@@ -14,7 +14,7 @@ public class Const {
 	public static double fricLoss = 0.6;
 	public static int delay = 10000; // milliseconds
 
-	public static int nbrOfBalls = 25;
+	public static int nbrOfBalls = 30;
 	public static int maxIniSpr = 4;
 	
 	//public static boolean showFaces = true;
