@@ -14,7 +14,6 @@ public class Particle {
 	
 	private boolean staticPos = false;
 	private double r = 32;
-	private Color color = new Color(0,255,0);
 	private double Fc = 0.95;
 	
 	// i = initial
@@ -30,7 +29,7 @@ public class Particle {
 	private double yVf = 0;
 	
 	private ArrayList<Vector> f;
-	private Vector fRes;
+	private Vector fNet;
 	
 	private Animation animation;
 	
@@ -46,15 +45,11 @@ public class Particle {
 	
 	public void setStaticPos (boolean isStatic) {
 		staticPos = isStatic;
-		if (staticPos) {
-			color = new Color(255, 0, 0);
-		}
 	}
 	
 	public void update (double dT) {
 		if (!staticPos) {
-			System.out.println("dt: " + dT);
-			calcFRes();
+			calcFNet();
 			calcSpeed(dT);
 			calcNewPos(dT);
 			xRi = xRf;
@@ -64,27 +59,41 @@ public class Particle {
 		}
 	}
 	
-	private void calcFRes () {
+	private void calcFNet () {
 		double tmpX = 0;
 		double tmpY = 0;
+		// f is an array of vectors
 		for (int i = 0; i < f.size(); i++) {
 			tmpX = tmpX + f.get(i).getX();
 			tmpY = tmpY + f.get(i).getY();
 		}
-		fRes = new Vector(tmpX, tmpY);
+		fNet = new Vector(tmpX, tmpY);
 		f.clear();
 	}
 	
 	private void calcSpeed (double dT) {
-		xVf = (xVi + (fRes.getX()/m) * dT) * Fc;
-		yVf = (yVi + (fRes.getY()/m) * dT) * Fc;
+		// Vf = Vi + (a * dT)
+		// To simulate energy loss in the system without 
+		// calculating it, Vi + (a * dT) is multiplied with
+		// a percentage conservative force constant
+		xVf = (xVi + (fNet.getX()/m) * dT) * Fc;
+		yVf = (yVi + (fNet.getY()/m) * dT) * Fc;
 	}
 	
 	private boolean calcNewPos (double dT) {
-		boolean colDetected = false;
+		// Assuming constant acc. the new position
+		// would be calculated as
+		// xRf = xRi + ((xVi + xVf) / 2) / dT
+		// since dT is very small we decided to approximate 
+		// this, as seen bellow, as this greatly reduces the 
+		// number of calculations needed in every update.
 		xRf = xRi + xVf * dT;
 		yRf = yRi + yVf * dT;
 		
+		// Code to simulate normal force and friction
+		// As the normal force isn't actually calculated
+		// friction won't be accurate
+		boolean colDetected = false;
 		if (Game.checkGroundCol((int)xRf, (int)yRf)) {
 			//MOVE UP
 			if (helpFunctions.collisionColorD((int)xRf, (int)yRf, 

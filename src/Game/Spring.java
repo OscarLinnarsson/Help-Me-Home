@@ -6,14 +6,14 @@ import Main.Game;
 
 public class Spring {
 
-	private Particle p1;
-	private Particle p2;
-	private double restL;
-	private double currentL;
-	private double deltaL;
+	private Particle p1; // Partikel1 aka. Fastpunkt1
+	private Particle p2; // Partikel2 aka. Fastpunkt2
+	private double restL; // Fjaderns naturliga langd
+	private double currentL; // Fjaderns nuvarande langd
+	private double deltaL; // Hur mycket fjadern ar utstrackt/ihoptryckt
 	private int snappLength;
-	private double k;
-	private double f;
+	private double k; // Fjaderkonstanten
+	private double f; // Kraften som fjadern paverkar fastpunkterna med
 	
 	public Spring (Particle p1, Particle p2, double k) {
 		double restL;
@@ -46,14 +46,18 @@ public class Spring {
 		currentL = Math.pow((Math.pow(dX, 2)+Math.pow(dY, 2)), 0.5);
 		deltaL = currentL - restL;
 		f = deltaL * -k;
-		if (deltaL > snappLength || deltaL < -snappLength) {
+		
+		// Should the spring break?
+		if (deltaL > snappLength || deltaL < -snappLength) { // Yes
 			Game.removeSpring(this);
-		} else {
+		} else { // NO
+			// Calculate force in x and y direction.
 			double angle = Math.atan2(dY, dX);
 			double xF = f * Math.cos(angle);
 			double yF = f * Math.sin(angle);
-			//Force xF and yF is with regard to particle p1
-			//particle p2 will be affected by the opposite force
+			// Force xF and yF is with regard to particle p1
+			// particle p2 will be affected by the opposite 
+			// force in each direction.
 			p1.addForce(new Vector(xF, yF));
 			p2.addForce(new Vector(-xF, -yF));
 		}
